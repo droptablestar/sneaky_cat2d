@@ -1,0 +1,21 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scripts/enemy_patroller.gd" id="1_vg3xl"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_eq0ee"]
+radius = 0.4
+height = 1.1
+mid_height = 1.1
+
+[node name="Enemy" type="Node3D"]
+script = ExtResource("1_vg3xl")
+patrol_speed = 2.0
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("CapsuleMesh_eq0ee")
+
+[node name="StateLabel" type="Label3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6, 0)
+text = "PATROL"
+billboard = 1
+pixel_size = 0.01

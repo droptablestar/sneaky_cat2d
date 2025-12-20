@@ -24,10 +24,11 @@ GDSCRIPT RULES (hard)
 - Avoid language bleed from other ecosystems.
 
 TASK
-Right now the jump and hide buttons are the same (spacebar). This is a confusing experiences.
-Let's change the hide button to "f".
+Right now the cat is immediately visisble to the dog and is being detected almost immediately. This
+is causing the level to reset almost as soon as it starts. 
 - In-scope:
-  - Changing the button used for hiding.
+  - Change things such that the cat isn't immediately visible to the dog.
+  - Increase the amount of time it takes before the cat is fully detected.
 - Out-of-scope:
   - Touch nothing else. Anything other than the button used to hide is out of scope.]
 

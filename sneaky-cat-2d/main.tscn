@@ -1,8 +1,9 @@
-[gd_scene load_steps=7 format=3]
+[gd_scene load_steps=9 format=3]
 
 [ext_resource type="PackedScene" path="res://scenes/player.tscn" id="1_6gaxr"]
 [ext_resource type="Script" path="res://scripts/follow_camera.gd" id="2_vufyt"]
 [ext_resource type="Script" path="res://scripts/hide_spot.gd" id="3_kd6g3"]
+[ext_resource type="PackedScene" path="res://scenes/enemy_patroller.tscn" id="4_0e3ue"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_yyg04"]
 size = Vector3(40, 1, 2)
@@ -60,3 +61,19 @@ script = ExtResource("3_kd6g3")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Level/Furniture/HideSpot"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 0.5, 0)
 shape = SubResource("BoxShape3D_hide_area")
+
+[node name="Waypoints" type="Node3D" parent="Level"]
+
+[node name="WaypointA" type="Node3D" parent="Level/Waypoints"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 0, 0)
+
+[node name="WaypointB" type="Node3D" parent="Level/Waypoints"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, 0)
+
+[node name="Enemy" parent="Level" instance=ExtResource("4_0e3ue")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 0, 0)
+detection_distance = 6.0
+detection_fill_rate = 18.0
+player_path = NodePath("../../Player")
+waypoint_a_path = NodePath("../Waypoints/WaypointA")
+waypoint_b_path = NodePath("../Waypoints/WaypointB")
