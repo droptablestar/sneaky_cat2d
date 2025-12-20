@@ -1,13 +1,23 @@
-[gd_scene load_steps=4 format=3]
+[gd_scene load_steps=7 format=3]
 
 [ext_resource type="PackedScene" path="res://scenes/player.tscn" id="1_6gaxr"]
 [ext_resource type="Script" path="res://scripts/follow_camera.gd" id="2_vufyt"]
+[ext_resource type="Script" path="res://scripts/hide_spot.gd" id="3_kd6g3"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_yyg04"]
 size = Vector3(40, 1, 2)
 
 [sub_resource type="BoxMesh" id="BoxMesh_4lgw8"]
 size = Vector3(40, 1, 2)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_furniture"]
+size = Vector3(2, 2, 2)
+
+[sub_resource type="BoxMesh" id="BoxMesh_furniture"]
+size = Vector3(2, 2, 2)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_hide_area"]
+size = Vector3(1.5, 1.5, 2)
 
 [node name="Root" type="Node3D"]
 
@@ -34,3 +44,19 @@ shape = SubResource("BoxShape3D_yyg04")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Level/Floor"]
 mesh = SubResource("BoxMesh_4lgw8")
+
+[node name="Furniture" type="StaticBody3D" parent="Level"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Level/Furniture"]
+shape = SubResource("BoxShape3D_furniture")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Level/Furniture"]
+mesh = SubResource("BoxMesh_furniture")
+
+[node name="HideSpot" type="Area3D" parent="Level/Furniture"]
+script = ExtResource("3_kd6g3")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Level/Furniture/HideSpot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 0.5, 0)
+shape = SubResource("BoxShape3D_hide_area")
