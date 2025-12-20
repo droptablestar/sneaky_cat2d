@@ -5,10 +5,10 @@
 - Reach goal
 
 ## MVP Features
-- 3D 2.5D side-scroller movement
-- Binary hiding behind furniture
-- Enemy patrol with vision-based detection
-- Detection meter (not instant fail)
+- 3D 2.5D side-scroller movement ✅
+- Binary hiding behind furniture ✅
+- Enemy patrol with vision-based detection ✅
+- Detection meter (not instant fail) ✅
 - Goal trigger at end of level
 
 ## Explicitly Not Yet
