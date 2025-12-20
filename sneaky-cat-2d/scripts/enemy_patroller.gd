@@ -36,6 +36,8 @@ var _investigate_moving: bool = false
 @onready var state_label: Label3D = $StateLabel
 
 func _ready() -> void:
+	if not is_in_group("enemy"):
+		add_to_group("enemy")
 	_initial_y = global_position.y
 	plane_z = global_position.z
 	_player = get_node_or_null(player_path)
@@ -216,3 +218,6 @@ func _change_state(new_state: String) -> void:
 	_current_state = new_state
 	state_label.text = new_state
 	print("Enemy state ->", new_state)
+
+func get_detection_meter() -> float:
+	return detection_meter

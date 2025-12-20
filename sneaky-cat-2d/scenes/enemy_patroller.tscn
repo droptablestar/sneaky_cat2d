@@ -8,6 +8,7 @@ height = 1.1
 mid_height = 1.1
 
 [node name="Enemy" type="Node3D"]
+groups = ["enemy"]
 script = ExtResource("1_vg3xl")
 patrol_speed = 2.0
 

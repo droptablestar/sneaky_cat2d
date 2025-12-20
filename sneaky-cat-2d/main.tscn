@@ -1,9 +1,10 @@
-[gd_scene load_steps=9 format=3]
+[gd_scene load_steps=10 format=3]
 
 [ext_resource type="PackedScene" path="res://scenes/player.tscn" id="1_6gaxr"]
 [ext_resource type="Script" path="res://scripts/follow_camera.gd" id="2_vufyt"]
 [ext_resource type="Script" path="res://scripts/hide_spot.gd" id="3_kd6g3"]
 [ext_resource type="PackedScene" path="res://scenes/enemy_patroller.tscn" id="4_0e3ue"]
+[ext_resource type="PackedScene" path="res://ui/HUD.tscn" id="5_bwa5p"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_yyg04"]
 size = Vector3(40, 1, 2)
@@ -77,3 +78,5 @@ detection_fill_rate = 18.0
 player_path = NodePath("../../Player")
 waypoint_a_path = NodePath("../Waypoints/WaypointA")
 waypoint_b_path = NodePath("../Waypoints/WaypointB")
+
+[node name="HUD" parent="." instance=ExtResource("5_bwa5p")]
