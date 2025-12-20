@@ -1,7 +1,10 @@
 Fix-only request.
 
-Godot reports parser errors / warnings treated as errors. Do NOT add features or refactor.
-Goal: project loads and runs with zero parser errors and zero warnings that are treated as errors.
+Godot reports:
+
+Parser errors / warnings treated as errors. Do NOT add features or refactor.
+Goal: 
+Project loads and runs with zero parser errors and zero warnings that are treated as errors.
 
 Current error (must be fixed):
 Parser Error: The variable type is being inferred from a Variant value, so it will be typed as Variant. (Warning treated as error.)
