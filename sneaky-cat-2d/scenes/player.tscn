@@ -29,6 +29,7 @@ shape = SubResource("CapsuleShape3D_x1ygl")
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.85, 0)
 mesh = SubResource("CapsuleMesh_l9601")
+visible = false
 
 [node name="HiddenIndicator" type="Label3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.7, 0)
@@ -46,6 +47,7 @@ texture = SubResource("ViewportTexture_kgf6v")
 billboard = 1
 double_sided = true
 pixel_size = 0.02
+visible = false
 
 [node name="SpriteViewport" type="SubViewport" parent="Visuals"]
 disable_3d = true
