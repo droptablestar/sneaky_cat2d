@@ -1,4 +1,4 @@
-extends GutTest
+extends "res://addons/gut/test_case.gd"
 class_name TestHarness
 
 const PLAYER_SCENE_PATH := "res://scenes/player.tscn"
@@ -8,7 +8,7 @@ var _attached_nodes: Array[Node] = []
 var _world_root: Node3D = null
 var _scene_tree_cache: SceneTree = null
 
-func _gut_attach(gut: Gut, scene_tree: SceneTree) -> void:
+func _gut_attach(gut: Object, scene_tree: SceneTree) -> void:
 	super._gut_attach(gut, scene_tree)
 	_scene_tree_cache = scene_tree
 

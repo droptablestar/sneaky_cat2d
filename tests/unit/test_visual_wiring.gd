@@ -1,4 +1,5 @@
-extends TestHarness
+extends "res://tests/support/test_harness.gd"
+
 
 func test_player_subviewport_pipeline_configured() -> void:
 	var player := instance_player(false)

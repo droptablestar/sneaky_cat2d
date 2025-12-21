@@ -2,7 +2,7 @@ extends SceneTree
 
 const GutClass := preload("res://addons/gut/gut.gd")
 
-var _gut: Gut = null
+var _gut: Object = null
 
 func _initialize() -> void:
 	_gut = GutClass.new()
@@ -33,6 +33,12 @@ func _collect_dirs() -> Array[String]:
 			var parts: PackedStringArray = arg.split("=", true, 1)
 			if parts.size() == 2:
 				dirs.append(parts[1])
+			index += 1
+			continue
+		if arg.begins_with("-gdir="):
+			var parts2: PackedStringArray = arg.split("=", true, 1)
+			if parts2.size() == 2:
+				dirs.append(parts2[1])
 			index += 1
 			continue
 		index += 1

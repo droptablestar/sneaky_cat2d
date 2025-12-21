@@ -12,6 +12,8 @@ var failures: Array[Dictionary] = []
 var _current_case_name: String = ""
 var _current_test_name: String = ""
 
+const TEST_HARNESS := preload("res://tests/support/test_harness.gd")
+
 func set_scene_tree(tree: SceneTree) -> void:
 	_scene_tree = tree
 
@@ -27,8 +29,10 @@ func run() -> int:
 	if case_scripts.is_empty():
 		push_warning("GUT: No tests discovered. Did you create files under res://tests?")
 	for script_ref: Script in case_scripts:
+		if script_ref == null or not script_ref.can_instantiate():
+			continue
 		var instance: Variant = script_ref.new()
-		var case_node: GutTest = instance as GutTest
+		var case_node: Node = instance as Node
 		if case_node == null:
 			continue
 		case_node._gut_attach(self, _scene_tree)
@@ -70,8 +74,10 @@ func _collect_from_dir(path: String, scripts: Array[Script]) -> void:
 		var script_ref: Script = resource as Script
 		if script_ref == null:
 			continue
+		if script_ref == null or not script_ref.can_instantiate():
+			continue
 		var instance: Variant = script_ref.new()
-		var case_node: GutTest = instance as GutTest
+		var case_node: Node = instance as Node
 		if case_node != null:
 			scripts.append(script_ref)
 		if is_instance_valid(case_node):

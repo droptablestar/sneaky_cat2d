@@ -9,6 +9,8 @@ export_credentials.cfg
 .export/
 .godot_test_home/
 .sneaky-cat-2d/.godot_test_home/
+.godot/
+/android/
 
 # Imported translations (automatically generated from CSV files)
 *.translation
@@ -22,3 +24,4 @@ mono_crash.*.json
 
 *.tmp
 *.log
+*.idea

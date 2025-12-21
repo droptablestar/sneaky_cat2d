@@ -1,11 +1,11 @@
 extends Node
 class_name GutTest
 
-var _gut: Gut = null
+var _gut: Object = null
 var _scene_tree: SceneTree = null
 var _current_test: String = ""
 
-func _gut_attach(gut: Gut, scene_tree: SceneTree) -> void:
+func _gut_attach(gut: Object, scene_tree: SceneTree) -> void:
 	_gut = gut
 	_scene_tree = scene_tree
 

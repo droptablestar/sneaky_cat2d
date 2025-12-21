@@ -1,4 +1,5 @@
-extends TestHarness
+extends "res://tests/support/test_harness.gd"
+
 
 var default_gravity: float = ProjectSettings.get_setting("physics/3d/default_gravity")
 

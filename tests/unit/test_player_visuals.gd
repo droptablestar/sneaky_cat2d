@@ -1,4 +1,5 @@
-extends TestHarness
+extends "res://tests/support/test_harness.gd"
+
 
 func test_visuals_play_hidden_when_player_hidden() -> void:
 	var data := _setup_player_with_visuals(true)
