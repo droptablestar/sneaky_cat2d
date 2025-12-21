@@ -1,20 +1,42 @@
-[gd_scene load_steps=12 format=3 uid="uid://n4vadvu0yq5r"]
+[gd_scene load_steps=16 format=3 uid="uid://n4vadvu0yq5r"]
 
-[ext_resource type="PackedScene" path="res://scenes/player.tscn" id="1_6gaxr"]
-[ext_resource type="SpriteFrames" uid="uid://davq20ir25adu" path="res://assets/sprites/cat_spriteframes.tres" id="2_7mycd"]
+[ext_resource type="PackedScene" uid="uid://dvc2at643pggm" path="res://scenes/player.tscn" id="1_6gaxr"]
 [ext_resource type="Script" uid="uid://bv1kwqm0mnatt" path="res://scripts/follow_camera.gd" id="2_vufyt"]
 [ext_resource type="Script" uid="uid://dnyy3bl45klos" path="res://scripts/hide_spot.gd" id="3_kd6g3"]
 [ext_resource type="PackedScene" path="res://scenes/enemy_patroller.tscn" id="4_0e3ue"]
 [ext_resource type="PackedScene" path="res://ui/HUD.tscn" id="5_bwa5p"]
 
+[sub_resource type="ProceduralSkyMaterial" id="SkyMaterial_bg"]
+sky_top_color = Color(0.37, 0.51, 0.68, 1)
+sky_horizon_color = Color(0.92, 0.9, 0.85, 1)
+
+[sub_resource type="Sky" id="Sky_bg"]
+sky_material = SubResource("SkyMaterial_bg")
+
+[sub_resource type="Environment" id="Environment_main"]
+background_mode = 2
+sky = SubResource("Sky_bg")
+ambient_light_source = 2
+ambient_light_energy = 0.35
+tonemap_mode = 2
+tonemap_exposure = 1.1
+
 [sub_resource type="BoxShape3D" id="BoxShape3D_yyg04"]
 size = Vector3(40, 1, 2)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_floor"]
+albedo_color = Color(0.82, 0.84, 0.88, 1)
+roughness = 0.85
 
 [sub_resource type="BoxMesh" id="BoxMesh_4lgw8"]
 size = Vector3(40, 1, 2)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_furniture"]
 size = Vector3(2, 2, 2)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_furniture"]
+albedo_color = Color(0.54, 0.4, 0.28, 1)
+roughness = 0.78
 
 [sub_resource type="BoxMesh" id="BoxMesh_furniture"]
 size = Vector3(2, 2, 2)
@@ -26,15 +48,16 @@ size = Vector3(1.5, 1.5, 2)
 
 [node name="Player" parent="." instance=ExtResource("1_6gaxr")]
 
-[node name="Visual" type="Node3D" parent="Player"]
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_main")
 
-[node name="CatSprite" type="AnimatedSprite3D" parent="Player/Visual"]
-position = Vector3(0, 0.7, -0.1)
-billboard = 1
-sprite_frames = ExtResource("2_7mycd")
-animation = &"walk"
-scale = Vector3(1, 1, 1)
-pixel_size = 0.02
+[node name="KeyLight" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.819152, 0, -0.573576, -0.32899, 0.819152, -0.469846, 0.469846, 0.573576, 0.67101, 0, 0, 0)
+light_color = Color(1, 0.9, 0.78, 1)
+
+[node name="FillLight" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.766044, 0, 0.642788, 0.111619, 0.984808, 0.133022, -0.633022, 0.173648, -0.754407, 0, 0, 0)
+light_color = Color(0.7, 0.82, 1, 1)
 
 [node name="FollowCamera" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.5, 8)
@@ -51,6 +74,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
 shape = SubResource("BoxShape3D_yyg04")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Level/Floor"]
+material_override = SubResource("StandardMaterial3D_floor")
 mesh = SubResource("BoxMesh_4lgw8")
 
 [node name="Furniture" type="StaticBody3D" parent="Level"]
@@ -60,6 +84,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0, 0)
 shape = SubResource("BoxShape3D_furniture")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Level/Furniture"]
+material_override = SubResource("StandardMaterial3D_furniture")
 mesh = SubResource("BoxMesh_furniture")
 
 [node name="HideSpot" type="Area3D" parent="Level/Furniture"]

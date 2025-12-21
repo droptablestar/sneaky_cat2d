@@ -11,34 +11,12 @@ var _gravity: float = ProjectSettings.get_setting("physics/3d/default_gravity")
 var _hide_pressed_last: bool = false
 
 @onready var hidden_label: Label3D = $HiddenIndicator
-@onready var cat_sprite: AnimatedSprite3D = $"Visual/CatSprite"
 
 func _ready() -> void:
 	if constrain_z:
 		plane_z = global_position.z
 	hidden_label.visible = false
 	hidden_label.text = ""
-
-	cat_sprite.animation = &"walk"
-	cat_sprite.play()
-	
-	# --- DEBUG: prove what SpriteFrames contains at runtime ---
-	print("CatSprite node:", cat_sprite)
-	print("CatSprite visible:", cat_sprite.visible)
-	print("SpriteFrames:", cat_sprite.sprite_frames)
-
-	if cat_sprite.sprite_frames:
-		var names := cat_sprite.sprite_frames.get_animation_names()
-		print("Animations in SpriteFrames:", names)
-		for n in names:
-			print("  frames in", n, "=", cat_sprite.sprite_frames.get_frame_count(n))
-
-	print("Current animation:", cat_sprite.animation)
-
-	cat_sprite.visible = true
-	cat_sprite.animation = &"walk"
-	cat_sprite.play()
-	print("After play(): animation=", cat_sprite.animation, " frame=", cat_sprite.frame)
 
 
 func _physics_process(delta: float) -> void:
@@ -61,16 +39,6 @@ func _physics_process(delta: float) -> void:
 
 	if constrain_z:
 		global_position.z = plane_z
-		
-	if abs(velocity.x) > 0.01:
-		cat_sprite.flip_h = velocity.x < 0.0
-		
-	cat_sprite.animation = &"walk"
-	cat_sprite.play()
-#	cat_sprite.animation = "walk" if abs(velocity.x) > 0.01 else "idle"
-#	cat_sprite.play()
-	
-	cat_sprite.global_position = global_position + Vector3(0, 0.9, -0.1)
 
 func register_hide_spot(spot: Node3D) -> void:
 	_current_hide_spot = spot

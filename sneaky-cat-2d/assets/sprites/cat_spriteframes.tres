@@ -1,6 +1,10 @@
-[gd_resource type="SpriteFrames" load_steps=4 format=3 uid="uid://davq20ir25adu"]
+[gd_resource type="SpriteFrames" load_steps=5 format=3 uid="uid://davq20ir25adu"]
 
 [ext_resource type="Texture2D" uid="uid://dm3iu6gpllfyq" path="res://assets/sprites/Cat_Sprite_Sheet_Black.png" id="1_sheet"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jhv15"]
+atlas = ExtResource("1_sheet")
+region = Rect2(128, 128, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_1"]
 atlas = ExtResource("1_sheet")
@@ -14,12 +18,33 @@ region = Rect2(32, 32, 32, 32)
 animations = [{
 "frames": [{
 "duration": 1.0,
+"texture": SubResource("AtlasTexture_jhv15")
+}],
+"loop": true,
+"name": &"hidden",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 4.0
+}, {
+"frames": [],
+"loop": true,
+"name": &"jump",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": SubResource("AtlasTexture_1")
 }, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_2")
 }],
-"loop": false,
+"loop": true,
 "name": &"walk",
 "speed": 6.0
 }]
