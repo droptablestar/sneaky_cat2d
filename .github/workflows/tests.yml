@@ -15,10 +15,6 @@ jobs:
       HOME: ${{ github.workspace }}/.godot_test_home
       
     steps:
-      - name: Debug workspace
-        run: |
-          pwd
-          ls -la
       - name: Checkout
         uses: actions/checkout@v4
       - name: Install Godot 4.5.1
