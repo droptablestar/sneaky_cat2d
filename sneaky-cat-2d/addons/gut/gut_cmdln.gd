@@ -2,12 +2,21 @@ extends SceneTree
 
 const GutClass := preload("res://addons/gut/gut.gd")
 
+var _gut: Gut = null
+
 func _initialize() -> void:
-	var gut: Gut = GutClass.new()
-	gut.set_scene_tree(self)
+	_gut = GutClass.new()
+	_gut.set_scene_tree(self)
 	for dir_path in _collect_dirs():
-		gut.add_directory(dir_path)
-	var exit_code: int = gut.run()
+		_gut.add_directory(dir_path)
+	call_deferred("_run_tests")
+
+func _run_tests() -> void:
+	if _gut == null:
+		push_error("GUT: Runner not initialized")
+		quit(1)
+		return
+	var exit_code: int = _gut.run()
 	quit(exit_code)
 
 func _collect_dirs() -> Array[String]:
