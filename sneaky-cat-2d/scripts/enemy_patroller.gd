@@ -13,6 +13,9 @@ extends Node3D
 @export_node_path("Node3D") var waypoint_b_path: NodePath
 @export_node_path("Node3D") var player_path: NodePath
 
+var velocity: Vector3 = Vector3.ZERO
+var _last_pos: Vector3
+
 const STATE_PATROL := "PATROL"
 const STATE_ALERT := "ALERT"
 const STATE_INVESTIGATE := "INVESTIGATE"
@@ -48,6 +51,7 @@ func _ready() -> void:
 	else:
 		_current_target = _waypoint_a
 	state_label.text = _current_state
+	_last_pos = global_position
 
 func _physics_process(delta: float) -> void:
 	var sees_player: bool = _check_player_visibility()
@@ -66,6 +70,9 @@ func _physics_process(delta: float) -> void:
 
 	_update_detection_meter(delta, sees_player)
 	_check_caught()
+	
+	velocity = (global_position - _last_pos) / max(delta, 0.0001)
+	_last_pos = global_position
 
 func _update_patrol(delta: float) -> void:
 	if not _waypoint_a or not _waypoint_b or not _current_target:

@@ -11,7 +11,6 @@ func _ready() -> void:
 	if _sprite:
 		_sprite.play("idle")
 		_current_animation = "idle"
-	_dump_sprite_nodes()
 
 func _physics_process(_delta: float) -> void:
 	if not _player or not _sprite:
@@ -30,11 +29,3 @@ func _physics_process(_delta: float) -> void:
 
 	if absf(_player.velocity.x) > 0.01:
 		_sprite.flip_h = _player.velocity.x < 0.0
-
-func _dump_sprite_nodes() -> void:
-	var player := get_parent()
-	print("--- Sprite dump under Player ---")
-	for n in player.find_children("*", "Node", true, false):
-		if n is Sprite3D or n is AnimatedSprite3D or n is Sprite2D or n is AnimatedSprite2D:
-			print(n.get_path(), "  type=", n.get_class(), "  visible=", n.visible)
-	print("-------------------------------")

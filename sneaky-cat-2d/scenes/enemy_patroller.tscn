@@ -1,22 +1,49 @@
-[gd_scene load_steps=3 format=3]
+[gd_scene load_steps=5 format=3 uid="uid://dya13xodgtd4j"]
 
-[ext_resource type="Script" path="res://scripts/enemy_patroller.gd" id="1_vg3xl"]
+[ext_resource type="Script" uid="uid://wvi0ktnwt4yd" path="res://scripts/enemy_patroller.gd" id="1_vg3xl"]
+[ext_resource type="SpriteFrames" uid="uid://dms7crcb8vf3b" path="res://assets/sprites/dog_spriteframes.tres" id="2_wvoyw"]
+[ext_resource type="Script" uid="uid://ntkjbvqg2lmx" path="res://scripts/enemy_visuals.gd" id="3_6yq3y"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_eq0ee"]
 radius = 0.4
 height = 1.1
-mid_height = 1.1
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_0gnmy"]
+viewport_path = NodePath("Visuals/SpriteViewport")
 
 [node name="Enemy" type="Node3D"]
-groups = ["enemy"]
 script = ExtResource("1_vg3xl")
 patrol_speed = 2.0
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+visible = false
 mesh = SubResource("CapsuleMesh_eq0ee")
 
 [node name="StateLabel" type="Label3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6, 0)
-text = "PATROL"
-billboard = 1
 pixel_size = 0.01
+billboard = 1
+text = "PATROL"
+
+[node name="Visuals" type="Node3D" parent="."]
+
+[node name="BillboardSprite" type="Sprite3D" parent="Visuals"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+billboard = 1
+texture_filter = 0
+double_sided = true
+pixel_size = 0.02
+texture = SubResource("ViewportTexture_0gnmy")
+
+[node name="SpriteViewport" type="SubViewport" parent="Visuals"]
+disable_3d = true
+transparent_bg = true
+size = Vector2i(128, 128)
+render_target_update_mode = 4
+render_target_clear_mode = 2
+
+[node name="DogSprite" type="AnimatedSprite2D" parent="Visuals/SpriteViewport"]
+position = Vector2(64, 96)
+sprite_frames = ExtResource("2_wvoyw")
+animation = &"walk"
+autoplay = &"walk"
