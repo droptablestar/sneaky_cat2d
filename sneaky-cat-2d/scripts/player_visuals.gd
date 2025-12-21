@@ -19,6 +19,8 @@ func _physics_process(_delta: float) -> void:
 	var target_animation: String = "idle"
 	if _player.is_hidden:
 		target_animation = "hidden"
+	elif not _player.is_on_floor():
+		target_animation = "jump"
 	elif absf(_player.velocity.x) > walk_threshold:
 		target_animation = "walk"
 
