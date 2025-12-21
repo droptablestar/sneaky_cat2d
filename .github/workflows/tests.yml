@@ -2,37 +2,29 @@ name: Tests
 
 on:
   push:
-    branches: [main]
+    branches:
+      - main
   pull_request:
 
 jobs:
   gut:
     runs-on: ubuntu-latest
     timeout-minutes: 15
-
+    env:
+      GODOT_USER_HOME: ${{ github.workspace }}/.godot_test_home
+      HOME: ${{ github.workspace }}/.godot_test_home
+      
     steps:
+      - name: Debug workspace
+        run: |
+          pwd
+          ls -la
       - name: Checkout
         uses: actions/checkout@v4
-
-      - name: Setup Godot
-        uses: chickensoft-games/setup-godot@v2
+      - name: Install Godot 4.5.1
+        uses: chickensoft-games/setup-godot@v1
         with:
-          version: "4.5.1"
-          use-dotnet: false
+          version: 4.5.1
           include-templates: false
-
-      - name: Show Godot version
-        run: |
-          which godot
-          godot --version
-
-      - name: Import project (headless)
-        run: |
-          godot --headless --quit --path .
-
       - name: Run GUT tests
-        run: |
-          chmod +x ./run_tests.sh
-          ./run_tests.sh -gdir=res://tests -gexit -ginclude_subdirs
-
-
+        run: ./run_tests.sh
