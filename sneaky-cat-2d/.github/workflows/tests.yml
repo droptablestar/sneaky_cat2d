@@ -1,0 +1,22 @@
+name: Tests
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  gut:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Install Godot 4.5.1
+        uses: chickensoft-games/setup-godot@v1
+        with:
+          version: 4.5.1
+          include-templates: false
+      - name: Run GUT tests
+        working-directory: sneaky-cat-2d
+        run: ./run_tests.sh
