@@ -1,18 +1,18 @@
 #!/usr/bin/env bash
 set -e
 
+GODOT_BIN="${GODOT_BIN:-godot}"
+
 export GODOT_USER_HOME="$(pwd)/.godot_test_home"
 
-# 1. Force import pass
-godot --headless --import
+"$GODOT_BIN" --headless --import
 
-# 2. Run GUT
-godot --headless \
+"$GODOT_BIN" --headless \
   -s addons/gut/gut_cmdln.gd \
   -gdir=res://tests \
   -ginclude_subdirs \
   -gexit
-#
+
 #set -euo pipefail
 #
 #SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]:-$0}")" && pwd)"

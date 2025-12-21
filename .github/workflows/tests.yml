@@ -5,6 +5,8 @@ on:
     branches:
       - main
   pull_request:
+    branches:
+      - main
 
 jobs:
   gut:
@@ -23,5 +25,4 @@ jobs:
           version: 4.5.1
           include-templates: false
       - name: Run GUT tests
-        working-directory: sneaky-cat-2d
         run: ./run_tests.sh
