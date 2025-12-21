@@ -1,7 +1,7 @@
 extends "res://tests/support/test_harness.gd"
 
-
 const ENEMY_VISUALS_SCRIPT := preload("res://scripts/enemy_visuals.gd")
+
 
 func test_enemy_walk_animation_triggers_when_enemy_moves() -> void:
 	var enemy := instance_enemy(false)

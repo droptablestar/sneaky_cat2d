@@ -14,8 +14,10 @@ var _current_test_name: String = ""
 
 const TEST_HARNESS := preload("res://tests/support/test_harness.gd")
 
+
 func set_scene_tree(tree: SceneTree) -> void:
 	_scene_tree = tree
+
 
 func add_directory(path: String) -> void:
 	if path.is_empty():
@@ -23,6 +25,7 @@ func add_directory(path: String) -> void:
 	if path in _dirs:
 		return
 	_dirs.append(path)
+
 
 func run() -> int:
 	var case_scripts: Array[Script] = _collect_case_scripts()
@@ -46,11 +49,13 @@ func run() -> int:
 	_print_summary()
 	return 0 if failures.is_empty() else 1
 
+
 func _collect_case_scripts() -> Array[Script]:
 	var scripts: Array[Script] = []
 	for dir_path: String in _dirs:
 		_collect_from_dir(dir_path, scripts)
 	return scripts
+
 
 func _collect_from_dir(path: String, scripts: Array[Script]) -> void:
 	var dir: DirAccess = DirAccess.open(path)
@@ -84,11 +89,20 @@ func _collect_from_dir(path: String, scripts: Array[Script]) -> void:
 			case_node.free()
 	dir.list_dir_end()
 
+
 func _print_summary() -> void:
-	print("[GUT] Tests: %d  Assertions: %d  Failures: %d" % [tests_run, assertions, failures.size()])
+	print(
+		"[GUT] Tests: %d  Assertions: %d  Failures: %d" % [tests_run, assertions, failures.size()]
+	)
 	for failure in failures:
 		var data: Dictionary = failure
-		print("[GUT][FAIL] %s > %s :: %s" % [data.get("case", ""), data.get("test", ""), data.get("message", "")])
+		print(
+			(
+				"[GUT][FAIL] %s > %s :: %s"
+				% [data.get("case", ""), data.get("test", ""), data.get("message", "")]
+			)
+		)
+
 
 func _start_test(case_name: String, test_name: String) -> void:
 	_current_case_name = case_name
@@ -96,17 +110,17 @@ func _start_test(case_name: String, test_name: String) -> void:
 	tests_run += 1
 	print("[GUT] RUN %s > %s" % [case_name, test_name])
 
+
 func _finish_test() -> void:
 	_current_case_name = ""
 	_current_test_name = ""
+
 
 func _record_assertion(passed: bool, message: String) -> void:
 	assertions += 1
 	if passed:
 		return
 	var failure: Dictionary = {
-		"case": _current_case_name,
-		"test": _current_test_name,
-		"message": message
+		"case": _current_case_name, "test": _current_test_name, "message": message
 	}
 	failures.append(failure)

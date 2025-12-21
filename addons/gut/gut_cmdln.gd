@@ -4,12 +4,14 @@ const GutClass := preload("res://addons/gut/gut.gd")
 
 var _gut: Object = null
 
+
 func _initialize() -> void:
 	_gut = GutClass.new()
 	_gut.set_scene_tree(self)
 	for dir_path in _collect_dirs():
 		_gut.add_directory(dir_path)
 	call_deferred("_run_tests")
+
 
 func _run_tests() -> void:
 	if _gut == null:
@@ -18,6 +20,7 @@ func _run_tests() -> void:
 		return
 	var exit_code: int = _gut.run()
 	quit(exit_code)
+
 
 func _collect_dirs() -> Array[String]:
 	var dirs: Array[String] = []

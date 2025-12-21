@@ -11,6 +11,7 @@ func test_visuals_play_hidden_when_player_hidden() -> void:
 	visuals._physics_process(1.0 / 60.0)
 	assert_eq("hidden", sprite.animation, "Hidden animation should play when player is hidden")
 
+
 func test_visuals_play_walk_when_velocity_exceeds_threshold() -> void:
 	var data := _setup_player_with_visuals(true)
 	var player: CharacterBody3D = data["player"]
@@ -20,6 +21,7 @@ func test_visuals_play_walk_when_velocity_exceeds_threshold() -> void:
 	player.velocity = Vector3(visuals.walk_threshold + 0.2, 0, 0)
 	visuals._physics_process(1.0 / 60.0)
 	assert_eq("walk", sprite.animation, "Walk animation should play when moving on the floor")
+
 
 func test_visuals_play_idle_when_not_moving() -> void:
 	var data := _setup_player_with_visuals(true)
@@ -31,6 +33,7 @@ func test_visuals_play_idle_when_not_moving() -> void:
 	visuals._physics_process(1.0 / 60.0)
 	assert_eq("idle", sprite.animation, "Idle animation should play when stationary on the floor")
 
+
 func test_visuals_play_jump_when_airborne() -> void:
 	var data := _setup_player_with_visuals(false)
 	var player: CharacterBody3D = data["player"]
@@ -40,6 +43,7 @@ func test_visuals_play_jump_when_airborne() -> void:
 	player.velocity = Vector3(0.1, 0, 0)
 	visuals._physics_process(1.0 / 60.0)
 	assert_eq("jump", sprite.animation, "Jump animation should play when not on floor")
+
 
 func test_visuals_flip_matches_velocity_direction() -> void:
 	var data := _setup_player_with_visuals(true)
@@ -54,6 +58,7 @@ func test_visuals_flip_matches_velocity_direction() -> void:
 	visuals._physics_process(1.0 / 60.0)
 	assert_true(sprite.flip_h, "Sprite should face left for negative velocity.x")
 
+
 func test_cat_sprite_frames_include_required_animations() -> void:
 	var player := instance_player(false)
 	assert_not_null(player)
@@ -61,7 +66,11 @@ func test_cat_sprite_frames_include_required_animations() -> void:
 	var frames: SpriteFrames = sprite.sprite_frames
 	var required := ["idle", "walk", "hidden", "jump"]
 	for animation_name in required:
-		assert_true(frames.has_animation(animation_name), "Cat sprite frames missing %s animation" % animation_name)
+		assert_true(
+			frames.has_animation(animation_name),
+			"Cat sprite frames missing %s animation" % animation_name
+		)
+
 
 func _setup_player_with_visuals(on_floor: bool) -> Dictionary:
 	var player := instance_player(true)
@@ -77,8 +86,4 @@ func _setup_player_with_visuals(on_floor: bool) -> Dictionary:
 		player.velocity = Vector3.ZERO
 		player._physics_process(1.0 / 60.0)
 		assert_false(player.is_on_floor(), "Player should be airborne for this test")
-	return {
-		"player": player,
-		"visuals": visuals,
-		"sprite": sprite
-	}
+	return {"player": player, "visuals": visuals, "sprite": sprite}
