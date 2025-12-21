@@ -12,6 +12,7 @@ var _hide_pressed_last: bool = false
 
 @onready var hidden_label: Label3D = $HiddenIndicator
 
+
 func _ready() -> void:
 	if constrain_z:
 		plane_z = global_position.z
@@ -28,7 +29,9 @@ func _physics_process(delta: float) -> void:
 		if not is_on_floor():
 			velocity.y -= _gravity * delta
 
-		var axis_input: float = Input.get_action_strength("ui_right") - Input.get_action_strength("ui_left")
+		var axis_input: float = (
+			Input.get_action_strength("ui_right") - Input.get_action_strength("ui_left")
+		)
 		velocity.x = axis_input * move_speed
 		velocity.z = 0.0
 
@@ -40,19 +43,23 @@ func _physics_process(delta: float) -> void:
 	if constrain_z:
 		global_position.z = plane_z
 
+
 func register_hide_spot(spot: Node3D) -> void:
 	_current_hide_spot = spot
+
 
 func unregister_hide_spot(spot: Node3D) -> void:
 	if _current_hide_spot == spot:
 		_current_hide_spot = null
 		_set_hidden(false)
 
+
 func _handle_hide_input() -> void:
 	var hide_pressed: bool = Input.is_key_pressed(Key.KEY_F)
 	if _current_hide_spot and hide_pressed and not _hide_pressed_last:
 		_set_hidden(not is_hidden)
 	_hide_pressed_last = hide_pressed
+
 
 func _set_hidden(hidden: bool) -> void:
 	if is_hidden == hidden:

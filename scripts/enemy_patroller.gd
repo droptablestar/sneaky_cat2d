@@ -38,6 +38,7 @@ var _investigate_moving: bool = false
 
 @onready var state_label: Label3D = $StateLabel
 
+
 func _ready() -> void:
 	if not is_in_group("enemy"):
 		add_to_group("enemy")
@@ -52,6 +53,7 @@ func _ready() -> void:
 		_current_target = _waypoint_a
 	state_label.text = _current_state
 	_last_pos = global_position
+
 
 func _physics_process(delta: float) -> void:
 	var sees_player: bool = _check_player_visibility()
@@ -70,9 +72,10 @@ func _physics_process(delta: float) -> void:
 
 	_update_detection_meter(delta, sees_player)
 	_check_caught()
-	
+
 	velocity = (global_position - _last_pos) / max(delta, 0.0001)
 	_last_pos = global_position
+
 
 func _update_patrol(delta: float) -> void:
 	if not _waypoint_a or not _waypoint_b or not _current_target:
@@ -101,11 +104,13 @@ func _update_patrol(delta: float) -> void:
 		else:
 			_facing = Vector3(-1, 0, 0)
 
+
 func _switch_target() -> void:
 	if _current_target == _waypoint_a:
 		_current_target = _waypoint_b
 	else:
 		_current_target = _waypoint_a
+
 
 func _check_player_visibility() -> bool:
 	if not _player:
@@ -130,8 +135,11 @@ func _check_player_visibility() -> bool:
 
 	return true
 
+
 func _update_detection_meter(delta: float, sees_player: bool) -> void:
-	var should_fill: bool = _current_state == STATE_ALERT and sees_player and _alert_timer >= alert_grace_time
+	var should_fill: bool = (
+		_current_state == STATE_ALERT and sees_player and _alert_timer >= alert_grace_time
+	)
 	if should_fill:
 		detection_meter = min(100.0, detection_meter + detection_fill_rate * delta)
 	else:
@@ -145,6 +153,7 @@ func _update_detection_meter(delta: float, sees_player: bool) -> void:
 		elif detection_meter == 0.0:
 			print("Detection meter reset")
 
+
 func _check_caught() -> void:
 	if _caught:
 		return
@@ -153,10 +162,12 @@ func _check_caught() -> void:
 		print("Enemy caught you! Restarting level...")
 		get_tree().reload_current_scene()
 
+
 func _start_alert() -> void:
 	_alert_timer = 0.0
 	_record_last_seen_position()
 	_change_state(STATE_ALERT)
+
 
 func _update_alert_state(delta: float, sees_player: bool) -> void:
 	if sees_player:
@@ -164,6 +175,7 @@ func _update_alert_state(delta: float, sees_player: bool) -> void:
 		_record_last_seen_position()
 	else:
 		_start_investigation()
+
 
 func _start_investigation() -> void:
 	_alert_timer = 0.0
@@ -173,6 +185,7 @@ func _start_investigation() -> void:
 	_investigate_moving = true
 	_investigate_pause_timer = 0.0
 	_change_state(STATE_INVESTIGATE)
+
 
 func _update_investigate_state(delta: float) -> void:
 	if _investigate_moving:
@@ -196,11 +209,13 @@ func _update_investigate_state(delta: float) -> void:
 		if _investigate_pause_timer >= investigate_pause_time:
 			_return_to_patrol()
 
+
 func _return_to_patrol() -> void:
 	_investigate_moving = false
 	_investigate_pause_timer = 0.0
 	_choose_next_patrol_target()
 	_change_state(STATE_PATROL)
+
 
 func _choose_next_patrol_target() -> void:
 	if not _waypoint_a or not _waypoint_b:
@@ -212,6 +227,7 @@ func _choose_next_patrol_target() -> void:
 	else:
 		_current_target = _waypoint_a
 
+
 func _record_last_seen_position() -> void:
 	if not _player:
 		return
@@ -219,12 +235,14 @@ func _record_last_seen_position() -> void:
 	_last_seen_position.y = _initial_y
 	_last_seen_position.z = plane_z
 
+
 func _change_state(new_state: String) -> void:
 	if _current_state == new_state:
 		return
 	_current_state = new_state
 	state_label.text = new_state
 	print("Enemy state ->", new_state)
+
 
 func get_detection_meter() -> float:
 	return detection_meter

@@ -10,7 +10,10 @@ func test_hidden_state_freezes_velocity() -> void:
 	press_action("ui_right")
 	player._physics_process(1.0 / 60.0)
 	release_action("ui_right")
-	assert_eq(Vector3.ZERO, player.velocity, "Hidden player should not accumulate movement velocity")
+	assert_eq(
+		Vector3.ZERO, player.velocity, "Hidden player should not accumulate movement velocity"
+	)
+
 
 func test_hidden_label_updates_visibility() -> void:
 	var player := instance_player(true)
