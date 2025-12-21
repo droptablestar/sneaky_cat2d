@@ -1,4 +1,5 @@
-extends TestHarness
+extends "res://tests/support/test_harness.gd"
+
 
 const ENEMY_VISUALS_SCRIPT := preload("res://scripts/enemy_visuals.gd")
 

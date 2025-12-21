@@ -1,4 +1,5 @@
-extends TestHarness
+extends "res://tests/support/test_harness.gd"
+
 
 func test_main_scene_contains_core_nodes() -> void:
 	var scene: Node = instantiate_scene("res://main.tscn")

@@ -1,4 +1,5 @@
-extends TestHarness
+extends "res://tests/support/test_harness.gd"
+
 
 func test_hidden_state_freezes_velocity() -> void:
 	var player := instance_player(true)
