@@ -9,4 +9,5 @@ mkdir -p "$GODOT_TEST_HOME"
 export GODOT_USER_HOME="$GODOT_TEST_HOME"
 export HOME="$GODOT_TEST_HOME"
 
-exec "$GODOT_CMD" --headless --path "$SCRIPT_DIR" -s addons/gut/gut_cmdln.gd "$@"
+exec "$GODOT_CMD" --headless --quit --path "$SCRIPT_DIR" \
+  -s addons/gut/gut_cmdln.gd "$@"
