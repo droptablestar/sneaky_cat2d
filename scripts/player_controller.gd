@@ -8,7 +8,6 @@ extends CharacterBody3D
 var is_hidden: bool = false
 var _current_hide_spot: Node3D = null
 var _gravity: float = ProjectSettings.get_setting("physics/3d/default_gravity")
-var _hide_pressed_last: bool = false
 
 @onready var hidden_label: Label3D = $HiddenIndicator
 
@@ -49,10 +48,10 @@ func unregister_hide_spot(spot: Node3D) -> void:
 		_set_hidden(false)
 
 func _handle_hide_input() -> void:
-	var hide_pressed: bool = Input.is_key_pressed(Key.KEY_F)
-	if _current_hide_spot and hide_pressed and not _hide_pressed_last:
+	if not _current_hide_spot:
+		return
+	if Input.is_action_just_pressed("hide_toggle"):
 		_set_hidden(not is_hidden)
-	_hide_pressed_last = hide_pressed
 
 func _set_hidden(hidden: bool) -> void:
 	if is_hidden == hidden:

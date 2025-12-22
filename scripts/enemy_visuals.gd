@@ -5,15 +5,19 @@ extends Node3D
 @onready var _enemy: Node3D = get_parent()
 @onready var _sprite: AnimatedSprite2D = $SpriteViewport/DogSprite
 
-var _current_animation := ""
-var _last_pos: Vector3
+var _current_animation: String = ""
+var _last_pos: Vector3 = Vector3.ZERO
 
 func _ready() -> void:
-	_last_pos = _enemy.global_position
 	_current_animation = "walk"
+	if not _enemy or not _sprite:
+		return
+	_last_pos = _enemy.global_position
 	_sprite.play(_current_animation)
 
 func _physics_process(_delta: float) -> void:
+	if not _enemy or not _sprite:
+		return
 	var delta_pos: Vector3 = _enemy.global_position - _last_pos
 	var speed: float = delta_pos.length()
 	_last_pos = _enemy.global_position
