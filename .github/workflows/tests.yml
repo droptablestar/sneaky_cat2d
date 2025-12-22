@@ -15,7 +15,7 @@ jobs:
     env:
       GODOT_USER_HOME: ${{ github.workspace }}/.godot_test_home
       HOME: ${{ github.workspace }}/.godot_test_home
-      
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4

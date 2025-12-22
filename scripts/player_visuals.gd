@@ -7,10 +7,12 @@ extends Node3D
 
 var _current_animation: String = ""
 
+
 func _ready() -> void:
 	if _sprite:
 		_sprite.play("idle")
 		_current_animation = "idle"
+
 
 func _physics_process(_delta: float) -> void:
 	if not _player or not _sprite:

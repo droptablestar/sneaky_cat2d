@@ -8,12 +8,14 @@ extends Node3D
 var _current_animation: String = ""
 var _last_pos: Vector3 = Vector3.ZERO
 
+
 func _ready() -> void:
 	_current_animation = "walk"
 	if not _enemy or not _sprite:
 		return
 	_last_pos = _enemy.global_position
 	_sprite.play(_current_animation)
+
 
 func _physics_process(_delta: float) -> void:
 	if not _enemy or not _sprite:

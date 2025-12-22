@@ -25,7 +25,7 @@ GDSCRIPT RULES (hard)
 
 TASK
 Right now the cat is immediately visisble to the dog and is being detected almost immediately. This
-is causing the level to reset almost as soon as it starts. 
+is causing the level to reset almost as soon as it starts.
 - In-scope:
   - Change things such that the cat isn't immediately visible to the dog.
   - Increase the amount of time it takes before the cat is fully detected.

@@ -3,7 +3,7 @@ Fix-only request.
 Godot reports:
 
 Parser errors / warnings treated as errors. Do NOT add features or refactor.
-Goal: 
+Goal:
 Project loads and runs with zero parser errors and zero warnings that are treated as errors.
 
 Current error (must be fixed):

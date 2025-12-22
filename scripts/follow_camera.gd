@@ -8,9 +8,11 @@ extends Camera3D
 
 var _target: Node3D
 
+
 func _ready() -> void:
 	current = true
 	_target = _resolve_target()
+
 
 func _process(delta: float) -> void:
 	if not _target:
@@ -18,13 +20,14 @@ func _process(delta: float) -> void:
 		return
 
 	var desired: Vector3 = Vector3(
-			_target.global_position.x + horizontal_offset,
-			_target.global_position.y + vertical_offset,
-			camera_z
+		_target.global_position.x + horizontal_offset,
+		_target.global_position.y + vertical_offset,
+		camera_z
 	)
 
 	var weight: float = clampf(delta * follow_speed, 0.0, 1.0)
 	global_position = global_position.lerp(desired, weight)
+
 
 func _resolve_target() -> Node3D:
 	if target_path.is_empty():
