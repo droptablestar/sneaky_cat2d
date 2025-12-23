@@ -1,33 +1,40 @@
-extends Node3D
+## Enemy visual animations
+##
+## Handles enemy sprite animations based on movement.
+## Extends BaseCharacterVisuals to inherit common animation logic.
+extends BaseCharacterVisuals
 
-@export var walk_threshold: float = 0.05
-
-@onready var _enemy: Node3D = get_parent()
-@onready var _sprite: AnimatedSprite2D = $SpriteViewport/DogSprite
-
-var _current_animation: String = ""
+## Previous position for calculating movement speed
 var _last_pos: Vector3 = Vector3.ZERO
 
 
+## Returns the enemy sprite node
+func _resolve_sprite() -> AnimatedSprite2D:
+	return $SpriteViewport/DogSprite
+
+
+## Returns initial animation (enemies start walking)
+func _get_initial_animation() -> String:
+	return GameConstants.ANIM_WALK
+
+
 func _ready() -> void:
-	_current_animation = "walk"
-	if not _enemy or not _sprite:
-		return
-	_last_pos = _enemy.global_position
-	_sprite.play(_current_animation)
+	super._ready()
+	if _parent_character:
+		_last_pos = _parent_character.global_position
 
 
-func _physics_process(_delta: float) -> void:
-	if not _enemy or not _sprite:
-		return
-	var delta_pos: Vector3 = _enemy.global_position - _last_pos
+## Determines animation based on whether enemy is moving
+func _determine_target_animation() -> String:
+	if not _parent_character:
+		return GameConstants.ANIM_IDLE
+
+	# Calculate movement speed by comparing position change
+	var delta_pos: Vector3 = _parent_character.global_position - _last_pos
 	var speed: float = delta_pos.length()
-	_last_pos = _enemy.global_position
+	_last_pos = _parent_character.global_position
 
-	var target := "idle"
 	if speed > walk_threshold:
-		target = "walk"
+		return GameConstants.ANIM_WALK
 
-	if target != _current_animation:
-		_current_animation = target
-		_sprite.play(_current_animation)
+	return GameConstants.ANIM_IDLE

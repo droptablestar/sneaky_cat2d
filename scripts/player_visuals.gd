@@ -1,33 +1,40 @@
-extends Node3D
-
-@export var walk_threshold: float = 0.1
-
-@onready var _player: CharacterBody3D = get_parent() as CharacterBody3D
-@onready var _sprite: AnimatedSprite2D = $SpriteViewport/CatSprite
-
-var _current_animation: String = ""
+## Player visual animations
+##
+## Handles player sprite animations and flipping based on player state.
+## Extends BaseCharacterVisuals to inherit common animation logic.
+extends BaseCharacterVisuals
 
 
-func _ready() -> void:
-	if _sprite:
-		_sprite.play("idle")
-		_current_animation = "idle"
+## Returns the player sprite node
+func _resolve_sprite() -> AnimatedSprite2D:
+	return $SpriteViewport/CatSprite
 
 
-func _physics_process(_delta: float) -> void:
-	if not _player or not _sprite:
-		return
-	var target_animation: String = "idle"
-	if _player.is_hidden:
-		target_animation = "hidden"
-	elif not _player.is_on_floor():
-		target_animation = "jump"
-	elif absf(_player.velocity.x) > walk_threshold:
-		target_animation = "walk"
+## Determines which animation should play based on player state
+func _determine_target_animation() -> String:
+	var player: CharacterBody3D = _parent_character as CharacterBody3D
+	if not player:
+		return GameConstants.ANIM_IDLE
 
-	if target_animation != _current_animation:
-		_current_animation = target_animation
-		_sprite.play(_current_animation)
+	# Priority order: hidden > jump > walk > idle
+	if player.is_hidden:
+		return GameConstants.ANIM_HIDDEN
+	elif not player.is_on_floor():
+		return GameConstants.ANIM_JUMP
+	elif absf(player.velocity.x) > walk_threshold:
+		return GameConstants.ANIM_WALK
 
-	if absf(_player.velocity.x) > 0.01:
-		_sprite.flip_h = _player.velocity.x < 0.0
+	return GameConstants.ANIM_IDLE
+
+
+## Enables sprite flipping for player
+func _should_flip_sprite() -> bool:
+	return true
+
+
+## Returns player velocity.x for determining flip direction
+func _get_flip_direction() -> float:
+	var player: CharacterBody3D = _parent_character as CharacterBody3D
+	if not player:
+		return 0.0
+	return player.velocity.x
