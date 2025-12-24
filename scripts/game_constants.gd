@@ -39,3 +39,9 @@ const ANIM_HIDDEN: String = "hidden"
 
 ## Animation name for jumping/airborne state (player only)
 const ANIM_JUMP: String = "jump"
+
+## Animation name for alert state (enemy only)
+const ANIM_ALERT: String = "alert"
+
+## Animation name for investigate state (enemy only)
+const ANIM_INVESTIGATE: String = "investigate"

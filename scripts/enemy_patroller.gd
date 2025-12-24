@@ -328,3 +328,8 @@ func _change_state(new_state: String) -> void:
 ## Returns current detection meter value (for HUD access)
 func get_detection_meter() -> float:
 	return detection_meter
+
+
+## Get the state of the enemy
+func get_state() -> String:
+	return _current_state

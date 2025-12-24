@@ -38,7 +38,7 @@
     2. Behavior change
     3. Any new or changed signals, groups, or InputMap actions
 - Do not introduce new gameplay systems or refactor unrelated code unless explicitly requested.
-- When asked to change a file, provide the **full replacement file contents** (not a patch or diff).
+- When asked to change a file, provide a diff of the changes.
 
 ## Code conventions
 - Prefer typed GDScript where it improves readability.

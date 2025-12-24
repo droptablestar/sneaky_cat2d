@@ -1,10 +1,10 @@
-[gd_resource type="SpriteFrames" load_steps=19 format=3 uid="uid://dms7crcb8vf3b"]
+[gd_resource type="SpriteFrames" load_steps=17 format=3 uid="uid://dms7crcb8vf3b"]
 
 [ext_resource type="Texture2D" uid="uid://d3q8uj8b1rkuo" path="res://assets/sprites/germanShephard.Aesprite-Sheet-x300.png" id="1_q122p"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_q122p"]
 atlas = ExtResource("1_q122p")
-region = Rect2(0, 2496, 192, 192)
+region = Rect2(576, 2496, 192, 192)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ynryo"]
 atlas = ExtResource("1_q122p")
@@ -12,11 +12,7 @@ region = Rect2(384, 2496, 192, 192)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_eatef"]
 atlas = ExtResource("1_q122p")
-region = Rect2(576, 2496, 192, 192)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_25q1m"]
-atlas = ExtResource("1_q122p")
-region = Rect2(0, 2112, 192, 192)
+region = Rect2(192, 2496, 192, 192)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_12o02"]
 atlas = ExtResource("1_q122p")
@@ -41,10 +37,6 @@ region = Rect2(960, 2112, 192, 192)
 [sub_resource type="AtlasTexture" id="AtlasTexture_x1mqu"]
 atlas = ExtResource("1_q122p")
 region = Rect2(1152, 2112, 192, 192)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_vou6j"]
-atlas = ExtResource("1_q122p")
-region = Rect2(1344, 2112, 192, 192)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_urr4i"]
 atlas = ExtResource("1_q122p")
@@ -88,9 +80,6 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_25q1m")
-}, {
-"duration": 1.0,
 "texture": SubResource("AtlasTexture_12o02")
 }, {
 "duration": 1.0,
@@ -107,9 +96,6 @@ animations = [{
 }, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_x1mqu")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_vou6j")
 }],
 "loop": true,
 "name": &"investigate",

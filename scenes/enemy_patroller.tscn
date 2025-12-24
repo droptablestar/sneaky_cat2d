@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://wvi0ktnwt4yd" path="res://scripts/enemy_patroller.gd" id="1_vg3xl"]
 [ext_resource type="SpriteFrames" uid="uid://dms7crcb8vf3b" path="res://assets/sprites/dog_spriteframes.tres" id="2_wvoyw"]
-[ext_resource type="Script" uid="uid://ntkjbvqg2lmx" path="res://scripts/enemy_visuals.gd" id="3_6yq3y"]
+[ext_resource type="Script" uid="uid://dc0kpkq4sjkc2" path="res://scripts/enemy_visuals.gd" id="3_6yq3y"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_eq0ee"]
 radius = 0.4
@@ -26,6 +26,7 @@ billboard = 1
 text = "PATROL"
 
 [node name="Visuals" type="Node3D" parent="."]
+script = ExtResource("3_6yq3y")
 
 [node name="BillboardSprite" type="Sprite3D" parent="Visuals"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
