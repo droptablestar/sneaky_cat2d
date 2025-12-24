@@ -3,7 +3,7 @@
 [ext_resource type="PackedScene" uid="uid://dvc2at643pggm" path="res://scenes/player.tscn" id="1_6gaxr"]
 [ext_resource type="Script" uid="uid://bv1kwqm0mnatt" path="res://scripts/follow_camera.gd" id="2_vufyt"]
 [ext_resource type="Script" uid="uid://dnyy3bl45klos" path="res://scripts/hide_spot.gd" id="3_kd6g3"]
-[ext_resource type="PackedScene" path="res://scenes/enemy_patroller.tscn" id="4_0e3ue"]
+[ext_resource type="PackedScene" uid="uid://dya13xodgtd4j" path="res://scenes/enemy_patroller.tscn" id="4_0e3ue"]
 [ext_resource type="PackedScene" path="res://ui/HUD.tscn" id="5_bwa5p"]
 
 [sub_resource type="ProceduralSkyMaterial" id="SkyMaterial_bg"]

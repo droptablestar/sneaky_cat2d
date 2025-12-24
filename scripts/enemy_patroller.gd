@@ -63,7 +63,6 @@ var _player: Node3D  ## Reference to player
 var _current_target: Node3D  ## Current waypoint being moved toward
 var _facing: Vector3 = Vector3(1, 0, 0)  ## Direction enemy is facing (for vision cone)
 var _current_state: String = STATE_PATROL  ## Current AI state
-var _last_bucket: int = GameConstants.DETECTION_METER_INITIAL_BUCKET  ## For tracking meter changes
 var _caught: bool = false  ## Whether player has been caught (prevents multiple restarts)
 var _initial_y: float = 0.0  ## Y position to maintain (for 2.5D plane)
 var _alert_timer: float = 0.0  ## Time spent in alert state (for grace period)
