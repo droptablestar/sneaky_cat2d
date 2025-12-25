@@ -12,7 +12,8 @@ extends Node3D
 ## Emitted when detection meter value changes (for HUD updates)
 signal detection_meter_changed(value: float)
 
-const DebugUtils := preload("res://scripts/debug_utils.gd")
+const DebugUtilsScript := preload("res://scripts/debug_utils.gd")
+# use DebugUtilsScript.new() if it’s a class, or call statics if applicable
 
 # State machine constants
 const STATE_PATROL := "PATROL"
@@ -53,6 +54,7 @@ var _investigate_pause_timer: float = 0.0
 var _investigate_moving: bool = false
 
 @onready var state_label: Label3D = $StateLabel
+@onready var _visuals: BaseCharacterVisuals = $Visuals
 
 
 func _ready() -> void:
@@ -72,6 +74,7 @@ func _ready() -> void:
 	assert(_player, "Enemy requires player_path to be assigned.")
 	assert(_waypoint_a, "Enemy requires waypoint_a_path to be assigned.")
 	assert(_waypoint_b, "Enemy requires waypoint_b_path to be assigned.")
+	assert(_visuals, "Enemy requires a Visuals child.")
 
 	# Set initial patrol target
 	if _waypoint_b:
@@ -101,6 +104,9 @@ func _physics_process(delta: float) -> void:
 
 	_update_detection_meter(delta, sees_player)
 	_check_caught()
+
+	if _visuals:
+		_visuals.tick(delta)
 
 
 ## PATROL state: Move between waypoints

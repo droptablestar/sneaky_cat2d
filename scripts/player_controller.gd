@@ -30,6 +30,8 @@ var _gravity: float = ProjectSettings.get_setting("physics/3d/default_gravity")
 
 ## 3D label showing "HIDDEN" text above player when hiding
 @onready var hidden_label: Label3D = $HiddenIndicator
+## Visuals component (driven manually to keep a single physics owner)
+@onready var _visuals: BaseCharacterVisuals = $Visuals
 
 
 func _ready() -> void:
@@ -66,6 +68,9 @@ func _physics_process(delta: float) -> void:
 	# Maintain Z-plane constraint
 	if constrain_z:
 		global_position.z = plane_z
+
+	if _visuals:
+		_visuals.tick(delta)
 
 
 ## Called by HideSpot when player enters a hide area.

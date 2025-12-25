@@ -76,12 +76,10 @@ func _initialize_animation() -> void:
 	_current_animation = initial
 
 
-## Updates animation and sprite flip every physics frame.
+## Updates animation and sprite flip each frame.
 ##
-## This is called automatically by Godot's physics process.
-## Determines the target animation state, updates the animation if needed,
-## and handles sprite flipping based on movement direction.
-func _physics_process(_delta: float) -> void:
+## Called by the owning controller to keep visuals in sync with movement/state.
+func tick(_delta: float) -> void:
 	if not _parent_character or not _sprite:
 		return
 
@@ -93,7 +91,7 @@ func _physics_process(_delta: float) -> void:
 ## Override this to define animation state logic.
 ##
 ## This method should examine the parent character's state and return
-## the appropriate animation name. Called every physics frame.
+## the appropriate animation name. Called each tick from the controller.
 ##
 ## Example:
 ##   [codeblock]
