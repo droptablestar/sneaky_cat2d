@@ -15,8 +15,12 @@ Docs for the current enemy patroller setup (Godot 4.x). No behavior changes; thi
 - Exported paths on `Enemy`: `player_path`, `waypoint_a_path`, `waypoint_b_path`.
 
 ## Scripts
-- `scripts/enemy_controller.gd`
-  - Role: Enemy controller and state machine (PATROL, ALERT, INVESTIGATE).
+- `scripts/enemy/enemy_controller.gd`
+  - Role: Enemy controller; senses world, calls AI, applies intent, drives visuals.
+- `scripts/enemy/enemy_ai.gd`
+  - Role: Enemy state machine and intent generation (PATROL, ALERT, INVESTIGATE).
+- `scripts/enemy/enemy_visuals.gd`
+  - Role: Enemy visuals/animation selection driven by controller-provided state.
   - Signals: `detection_meter_changed(value: float)`.
   - Groups: adds itself to `"enemy"` in `_ready()`.
   - Handles detection meter fill/decay, state label updates, and reload on catch.

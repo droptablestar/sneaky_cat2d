@@ -9,4 +9,5 @@ repos:
     rev: 4.3.0
     hooks:
       - id: gdlint
+        exclude: ^addons/|^tests/
       - id: gdformat

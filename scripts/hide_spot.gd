@@ -11,7 +11,7 @@ func _ready() -> void:
 
 
 ## Called when a body enters the hide spot area.
-## Registers this hide spot with the body if it has the register_hide_spot method (typically the player).
+## Registers this hide spot with the body if it has register_hide_spot (typically the player).
 func _on_body_entered(body: Node) -> void:
 	if body.has_method("register_hide_spot"):
 		body.register_hide_spot(self)

@@ -11,7 +11,7 @@ func _resolve_sprite() -> AnimatedSprite2D:
 
 
 ## Determines which animation should play based on player state
-func _determine_target_animation() -> String:
+func _determine_target_animation(_state: Variant = null) -> String:
 	var player: CharacterBody3D = _parent_character as CharacterBody3D
 	if not player:
 		return GameConstants.ANIM_IDLE
@@ -19,9 +19,9 @@ func _determine_target_animation() -> String:
 	# Priority order: hidden > jump > walk > idle
 	if player.is_hidden:
 		return GameConstants.ANIM_HIDDEN
-	elif not player.is_on_floor():
+	if not player.is_on_floor():
 		return GameConstants.ANIM_JUMP
-	elif absf(player.velocity.x) > walk_threshold:
+	if absf(player.velocity.x) > walk_threshold:
 		return GameConstants.ANIM_WALK
 
 	return GameConstants.ANIM_IDLE

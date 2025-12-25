@@ -39,6 +39,11 @@ var _parent_character: Node3D = null
 
 
 func _ready() -> void:
+	init_visuals()
+
+
+## Initializes parent/sprite wiring and starts initial animation.
+func init_visuals() -> void:
 	_parent_character = get_parent()
 	_sprite = _resolve_sprite()
 	_initialize_animation()
@@ -79,11 +84,12 @@ func _initialize_animation() -> void:
 ## Updates animation and sprite flip each frame.
 ##
 ## Called by the owning controller to keep visuals in sync with movement/state.
-func tick(_delta: float) -> void:
+## Optional state parameter lets controllers pass explicit state data to visuals.
+func tick(_delta: float, state: Variant = null) -> void:
 	if not _parent_character or not _sprite:
 		return
 
-	var target_animation: String = _determine_target_animation()
+	var target_animation: String = _determine_target_animation(state)
 	_update_animation(target_animation)
 	_update_sprite_flip()
 
@@ -91,7 +97,8 @@ func tick(_delta: float) -> void:
 ## Override this to define animation state logic.
 ##
 ## This method should examine the parent character's state and return
-## the appropriate animation name. Called each tick from the controller.
+## the appropriate animation name. Called each tick from the controller, with
+## optional state data supplied by the controller.
 ##
 ## Example:
 ##   [codeblock]
@@ -106,7 +113,7 @@ func tick(_delta: float) -> void:
 ##   [/codeblock]
 ##
 ## Returns: String name of the animation that should currently play
-func _determine_target_animation() -> String:
+func _determine_target_animation(_state: Variant = null) -> String:
 	return GameConstants.ANIM_IDLE
 
 

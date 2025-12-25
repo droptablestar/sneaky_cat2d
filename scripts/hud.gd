@@ -4,17 +4,17 @@
 ## Uses signals from player and enemy for efficient updates (no polling).
 extends CanvasLayer
 
-## Detection meter progress bar (0-100)
-@onready var detection_bar: ProgressBar = %DetectionBar
-
-## Label showing HIDDEN or VISIBLE status
-@onready var hidden_status_label: Label = %HiddenStatusLabel
-
 ## Reference to player node
 var _player: Node = null
 
 ## Reference to enemy node
 var _enemy: Node = null
+
+## Detection meter progress bar (0-100)
+@onready var detection_bar: ProgressBar = %DetectionBar
+
+## Label showing HIDDEN or VISIBLE status
+@onready var hidden_status_label: Label = %HiddenStatusLabel
 
 
 func _ready() -> void:

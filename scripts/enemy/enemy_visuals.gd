@@ -21,13 +21,13 @@ func _get_initial_animation() -> String:
 
 
 func _ready() -> void:
-	super._ready()
+	init_visuals()
 	if _parent_character:
 		_last_pos = _parent_character.global_position
 
 
 ## Determines animation based on whether enemy is moving
-func _determine_target_animation() -> String:
+func _determine_target_animation(state: Variant = null) -> String:
 	if not _parent_character:
 		return GameConstants.ANIM_WALK
 
@@ -35,13 +35,11 @@ func _determine_target_animation() -> String:
 	_last_pos = _parent_character.global_position
 	_update_last_horizontal_delta(delta_pos.x)
 
-	# Prefer AI state-driven animations.
-	if _parent_character.has_method("get_state"):
-		var state: String = _parent_character.get_state()
-		if state == _parent_character.STATE_ALERT:
-			return GameConstants.ANIM_ALERT
-		if state == _parent_character.STATE_INVESTIGATE:
-			return GameConstants.ANIM_INVESTIGATE
+	var state_name: String = state if typeof(state) == TYPE_STRING else ""
+	if state_name == "ALERT":
+		return GameConstants.ANIM_ALERT
+	if state_name == "INVESTIGATE":
+		return GameConstants.ANIM_INVESTIGATE
 
 	# Calculate movement speed by comparing position change
 	if delta_pos.length() > walk_threshold:
