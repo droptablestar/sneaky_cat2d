@@ -85,8 +85,12 @@ func _ready() -> void:
 	state_label.text = _current_state
 
 
-## Main AI update loop - runs state machine and updates detection
 func _physics_process(delta: float) -> void:
+	tick(delta)
+
+
+## Main AI update loop - runs state machine and updates detection
+func tick(delta: float) -> void:
 	var sees_player: bool = _check_player_visibility()
 
 	# State machine - handle current state and transitions
