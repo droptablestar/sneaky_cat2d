@@ -12,66 +12,46 @@ extends Node3D
 ## Emitted when detection meter value changes (for HUD updates)
 signal detection_meter_changed(value: float)
 
+const DebugUtils := preload("res://scripts/debug_utils.gd")
+
+# State machine constants
+const STATE_PATROL := "PATROL"
+const STATE_ALERT := "ALERT"
+const STATE_INVESTIGATE := "INVESTIGATE"
+
 # Movement and detection settings
-## Movement speed during patrol and investigation
 @export var patrol_speed: float = 2.5
-
-## Maximum distance the enemy can see the player
 @export var detection_distance: float = 10.0
-
-## Half-angle of the vision cone in degrees (45 = 90-degree total cone)
 @export var cone_half_angle_deg: float = 45.0
-
-## Rate at which detection meter fills per second when player is visible
 @export var detection_fill_rate: float = 40.0
-
-## Rate at which detection meter decays per second when player not visible
 @export var detection_decay_rate: float = 25.0
-
-## Grace period (seconds) after spotting player before detection starts filling
 @export var alert_grace_time: float = 0.4
-
-## How long (seconds) to pause at investigation point before returning to patrol
 @export var investigate_pause_time: float = 2.0
-
-## Fixed Z position for 2.5D plane constraint (set automatically in _ready)
 @export var plane_z: float = 0.0
 
 # Node path exports
-## Path to first patrol waypoint
 @export_node_path("Node3D") var waypoint_a_path: NodePath
-
-## Path to second patrol waypoint
 @export_node_path("Node3D") var waypoint_b_path: NodePath
-
-## Path to player node
 @export_node_path("Node3D") var player_path: NodePath
 
-# State machine constants
-const STATE_PATROL := "PATROL"  ## Patrolling between waypoints
-const STATE_ALERT := "ALERT"  ## Player spotted, actively tracking
-const STATE_INVESTIGATE := "INVESTIGATE"  ## Lost sight, investigating last position
-
 # Public state
-## Current detection meter value (0-100). Exposed for HUD access.
 var detection_meter: float = 0.0
 
 # Private state
-var _waypoint_a: Node3D  ## Reference to first waypoint
-var _waypoint_b: Node3D  ## Reference to second waypoint
-var _player: Node3D  ## Reference to player
-var _current_target: Node3D  ## Current waypoint being moved toward
-var _facing: Vector3 = Vector3(1, 0, 0)  ## Direction enemy is facing (for vision cone)
-var _current_state: String = STATE_PATROL  ## Current AI state
-var _caught: bool = false  ## Whether player has been caught (prevents multiple restarts)
-var _initial_y: float = 0.0  ## Y position to maintain (for 2.5D plane)
-var _alert_timer: float = 0.0  ## Time spent in alert state (for grace period)
-var _last_seen_position: Vector3 = Vector3.ZERO  ## Last position player was seen
-var _investigate_destination: Vector3 = Vector3.ZERO  ## Target position when investigating
-var _investigate_pause_timer: float = 0.0  ## Timer for pause at investigation point
-var _investigate_moving: bool = false  ## Whether currently moving to investigation point
+var _waypoint_a: Node3D
+var _waypoint_b: Node3D
+var _player: Node3D
+var _current_target: Node3D
+var _facing: Vector3 = Vector3(1, 0, 0)
+var _current_state: String = STATE_PATROL
+var _caught: bool = false
+var _initial_y: float = 0.0
+var _alert_timer: float = 0.0
+var _last_seen_position: Vector3 = Vector3.ZERO
+var _investigate_destination: Vector3 = Vector3.ZERO
+var _investigate_pause_timer: float = 0.0
+var _investigate_moving: bool = false
 
-## 3D label showing current state (for debugging)
 @onready var state_label: Label3D = $StateLabel
 
 
@@ -88,6 +68,10 @@ func _ready() -> void:
 	_player = get_node_or_null(player_path)
 	_waypoint_a = get_node_or_null(waypoint_a_path)
 	_waypoint_b = get_node_or_null(waypoint_b_path)
+	assert(state_label, "Enemy requires a StateLabel child.")
+	assert(_player, "Enemy requires player_path to be assigned.")
+	assert(_waypoint_a, "Enemy requires waypoint_a_path to be assigned.")
+	assert(_waypoint_b, "Enemy requires waypoint_b_path to be assigned.")
 
 	# Set initial patrol target
 	if _waypoint_b:
@@ -219,7 +203,7 @@ func _check_caught() -> void:
 		return
 	if detection_meter >= GameConstants.DETECTION_METER_MAX:
 		_caught = true
-		print("Enemy caught you! Restarting level...")
+		DebugUtils.dbg("Enemy caught you! Restarting level...")
 		get_tree().reload_current_scene()
 
 
@@ -322,7 +306,7 @@ func _change_state(new_state: String) -> void:
 		return
 	_current_state = new_state
 	state_label.text = new_state
-	print("Enemy state ->", new_state)
+	DebugUtils.dbg("Enemy state ->", new_state)
 
 
 ## Returns current detection meter value (for HUD access)
