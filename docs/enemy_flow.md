@@ -15,7 +15,7 @@ Docs for the current enemy patroller setup (Godot 4.x). No behavior changes; thi
 - Exported paths on `Enemy`: `player_path`, `waypoint_a_path`, `waypoint_b_path`.
 
 ## Scripts
-- `scripts/enemy_patroller.gd`
+- `scripts/EnemyController.gd`
   - Role: Enemy controller and state machine (PATROL, ALERT, INVESTIGATE).
   - Signals: `detection_meter_changed(value: float)`.
   - Groups: adds itself to `"enemy"` in `_ready()`.
@@ -25,7 +25,7 @@ Docs for the current enemy patroller setup (Godot 4.x). No behavior changes; thi
   - Depends on parent (`Enemy`) exposing `get_state` and state constants.
   - Uses `BaseCharacterVisuals` helpers for animation playback/flip.
 - `scripts/base_character_visuals.gd` (base class)
-  - Role: Common animation runner for characters; provides `_physics_process` to pick animation and flip horizontally.
+  - Role: Common animation runner for characters; provides `tick` to pick animation and flip horizontally.
 
 ## Per-frame entrypoints
 - `Enemy` (`enemy_patroller.gd`):
