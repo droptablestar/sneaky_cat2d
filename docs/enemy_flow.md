@@ -15,7 +15,7 @@ Docs for the current enemy patroller setup (Godot 4.x). No behavior changes; thi
 - Exported paths on `Enemy`: `player_path`, `waypoint_a_path`, `waypoint_b_path`.
 
 ## Scripts
-- `scripts/EnemyController.gd`
+- `scripts/enemy_controller.gd`
   - Role: Enemy controller and state machine (PATROL, ALERT, INVESTIGATE).
   - Signals: `detection_meter_changed(value: float)`.
   - Groups: adds itself to `"enemy"` in `_ready()`.
