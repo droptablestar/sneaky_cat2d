@@ -1,7 +1,7 @@
 ## Enemy patroller controller
 ##
 ## Orchestrates sensing, AI decision, movement application, and visuals. The AI
-## state machine lives in scripts/enemy/enemy_ai.gd and returns an intent each
+## state machine lives in src/enemy/enemy_ai.gd and returns an intent each
 ## tick; this controller applies that intent and remains the sole physics owner.
 extends Node3D
 
@@ -54,6 +54,7 @@ func _ready() -> void:
 	assert(_waypoint_a, "Enemy requires waypoint_a_path to be assigned.")
 	assert(_waypoint_b, "Enemy requires waypoint_b_path to be assigned.")
 	assert(_visuals, "Enemy requires a Visuals child.")
+	assert("is_hidden" in _player, "Player must expose is_hidden property.")
 
 	_ai = EnemyAI.new()
 	state_label.text = _ai.get_state()
