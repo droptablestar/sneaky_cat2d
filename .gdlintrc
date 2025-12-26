@@ -1,0 +1,5 @@
+disable:
+  - class-name
+excluded_directories:
+  - .git
+  - addons

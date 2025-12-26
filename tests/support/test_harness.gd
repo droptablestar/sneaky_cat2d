@@ -1,8 +1,7 @@
 extends "res://addons/gut/test_case.gd"
-class_name TestHarness
 
-const PLAYER_SCENE_PATH := "res://scenes/player.tscn"
-const ENEMY_SCENE_PATH := "res://scenes/enemy_patroller.tscn"
+const PLAYER_SCENE_PATH := "res://src/player/player.tscn"
+const ENEMY_SCENE_PATH := "res://src/enemy/enemy_patroller.tscn"
 var _instanced_nodes: Array[Node] = []
 var _attached_nodes: Array[Node] = []
 var _world_root: Node3D = null
@@ -10,7 +9,9 @@ var _scene_tree_cache: SceneTree = null
 
 
 func _gut_attach(gut: Object, scene_tree: SceneTree) -> void:
+	# gdlint: disable=private-method-call
 	super._gut_attach(gut, scene_tree)
+	# gdlint: enable=private-method-call
 	_scene_tree_cache = scene_tree
 
 
@@ -63,6 +64,21 @@ func instance_enemy(add_to_tree: bool = false) -> Node3D:
 	return enemy
 
 
+func spawn_scene(scene_path: String, overrides: Dictionary = {}) -> Node:
+	var instance := instantiate_scene(scene_path, false)
+	if instance == null:
+		fail("Failed to instantiate %s" % scene_path)
+		return null
+	for property_name in overrides.keys():
+		instance.set(property_name, overrides[property_name])
+	_register_attached_node(instance)
+	var tree := _active_tree()
+	if tree == null:
+		return instance
+	await tree.process_frame
+	return instance
+
+
 func add_flat_floor(y: float = 0.0, size: Vector3 = Vector3(20, 1, 4)) -> StaticBody3D:
 	var floor := StaticBody3D.new()
 	floor.position = Vector3(0, y, 0)
@@ -76,17 +92,24 @@ func add_flat_floor(y: float = 0.0, size: Vector3 = Vector3(20, 1, 4)) -> Static
 	return floor
 
 
+func tick_physics(target: Node, delta: float = 1.0 / 60.0) -> void:
+	if target == null:
+		fail("tick_physics target cannot be null")
+		return
+	_call_physics_recursive(target, delta)
+
+
 func step_physics(target: Node, steps: int, delta: float = 1.0 / 60.0) -> void:
 	if target == null:
 		fail("step_physics target cannot be null")
 		return
 	for _i in range(steps):
-		_call_physics_recursive(target, delta)
+		tick_physics(target, delta)
 
 
 func _call_physics_recursive(node: Node, delta: float) -> void:
 	if node.has_method("_physics_process"):
-		node._physics_process(delta)
+		node.call("_physics_process", delta)
 	for child in node.get_children():
 		var child_node: Node = child as Node
 		if child_node != null:

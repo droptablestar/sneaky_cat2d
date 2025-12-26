@@ -45,10 +45,11 @@
 - Keep scripts focused (one responsibility per script).
 - Prefer explicit state machines over boolean flag soup.
 - Prefer signals over polling for cross-node communication.
-- Gameplay constants belong in `scripts/game_constants.gd` (or the existing constants module).
+- Gameplay constants belong in `src/shared/game_constants.gd` (or the existing constants module).
 
 ## File structure
-- `scenes/` — Godot scenes
-- `scripts/` — GDScript files
-- `ui/` — UI scenes and scripts
+- `src/` — Canonical home for gameplay code plus feature scenes (see REFACTOR_RULES.md)
+- `scenes/` — Legacy scenes
+- `scripts/` — Legacy scripts
+- `ui/` — Legacy UI scenes and scripts
 - `assets/` — Models, textures, sounds

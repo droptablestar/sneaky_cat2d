@@ -1,8 +1,8 @@
 [gd_scene load_steps=5 format=3 uid="uid://dya13xodgtd4j"]
 
-[ext_resource type="Script" uid="uid://wvi0ktnwt4yd" path="res://scripts/enemy/enemy_controller.gd" id="1_vg3xl"]
+[ext_resource type="Script" uid="uid://wvi0ktnwt4yd" path="res://src/enemy/enemy_controller.gd" id="1_vg3xl"]
 [ext_resource type="SpriteFrames" uid="uid://dms7crcb8vf3b" path="res://assets/sprites/dog_spriteframes.tres" id="2_wvoyw"]
-[ext_resource type="Script" uid="uid://dc0kpkq4sjkc2" path="res://scripts/enemy/enemy_visuals.gd" id="3_6yq3y"]
+[ext_resource type="Script" uid="uid://dc0kpkq4sjkc2" path="res://src/enemy/enemy_visuals.gd" id="3_6yq3y"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_eq0ee"]
 radius = 0.4

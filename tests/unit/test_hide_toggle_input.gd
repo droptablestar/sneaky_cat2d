@@ -47,13 +47,14 @@ func test_project_has_hide_toggle_bound_to_f_in_project_file() -> void:
 	var text := _read_project_godot_text()
 	var block := _extract_input_action_block(text, "hide_toggle")
 
-	assert_true(
-		_block_has_f_key_binding(block),
+	var message := (
 		(
-			"project.godot hide_toggle must reference F (via key_label/keycode/physical_keycode=70 or unicode=102). Block was:\n%s"
-			% block
+			"project.godot hide_toggle must reference F (via key_label/keycode/physical_keycode=70"
+			+ " or unicode=102).\nBlock was:\n%s"
 		)
+		% block
 	)
+	assert_true(_block_has_f_key_binding(block), message)
 
 
 func test_hide_state_transitions_and_unhide_on_exit_emit_signal() -> void:
@@ -66,7 +67,7 @@ func test_hide_state_transitions_and_unhide_on_exit_emit_signal() -> void:
 	var spot := Node3D.new()
 	player.register_hide_spot(spot)
 
-	player._set_hidden(true)
+	player.call("_set_hidden", true)
 	assert_true(player.is_hidden, "Player should become hidden when set hidden")
 	assert_eq(1, emitted.size(), "hidden_state_changed should emit once on hide")
 	assert_eq(true, emitted[0], "First hidden_state_changed should be true")

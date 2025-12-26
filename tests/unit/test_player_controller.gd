@@ -9,7 +9,7 @@ func test_gravity_applies_when_airborne() -> void:
 	assert_false(player.is_on_floor(), "No floor attached so player should be airborne")
 	var previous_velocity := player.velocity.y
 	var delta := 0.1
-	player._physics_process(delta)
+	tick_physics(player, delta)
 	var expected: float = previous_velocity - default_gravity * delta
 	assert_true(
 		is_equal_approx(player.velocity.y, expected),
@@ -22,7 +22,7 @@ func test_jump_does_not_fire_in_air() -> void:
 	assert_not_null(player)
 	assert_false(player.is_on_floor())
 	player.velocity.y = player.jump_velocity
-	player._physics_process(1.0 / 60.0)
+	tick_physics(player)
 	assert_true(
 		player.velocity.y < player.jump_velocity,
 		"Airborne attempt should still lose velocity due to gravity"
@@ -39,7 +39,7 @@ func test_jump_applies_when_on_floor() -> void:
 	player.floor_snap_length = 0.0
 	var start_height: float = player.global_position.y
 	player.velocity.y = player.jump_velocity
-	player._physics_process(1.0 / 60.0)
+	tick_physics(player)
 	step_physics(player, 5)
 	assert_false(player.is_on_floor(), "Player should leave the floor after jumping")
 	assert_true(
@@ -51,14 +51,14 @@ func test_horizontal_axis_controls_velocity() -> void:
 	var player := instance_player(true)
 	assert_not_null(player)
 	press_action("ui_right")
-	player._physics_process(1.0 / 60.0)
+	tick_physics(player)
 	release_action("ui_right")
 	assert_true(
 		is_equal_approx(player.velocity.x, player.move_speed),
 		"Pressing ui_right should move player right"
 	)
 	press_action("ui_left")
-	player._physics_process(1.0 / 60.0)
+	tick_physics(player)
 	release_action("ui_left")
 	assert_true(
 		is_equal_approx(player.velocity.x, -player.move_speed),
@@ -71,7 +71,7 @@ func test_z_plane_constraint_holds_position() -> void:
 	assert_not_null(player)
 	var plane_z: float = player.plane_z
 	player.global_position.z = plane_z + 1.0
-	player._physics_process(1.0 / 60.0)
+	tick_physics(player)
 	assert_true(
 		is_equal_approx(player.global_position.z, plane_z),
 		"Player should be constrained to initial Z plane"

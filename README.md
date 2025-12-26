@@ -56,23 +56,29 @@ godot --path . res://main.tscn
 
 ```
 sneaky_cat2d/
-├── scripts/          # All GDScript source files
-│   ├── game_constants.gd           # Centralized game constants
-│   ├── base_character_visuals.gd   # Base class for character animations
-│   ├── position_utils.gd           # Position utility functions
-│   ├── player_controller.gd        # Player movement and state
-│   ├── player_visuals.gd           # Player animation logic
-│   ├── enemy_patroller.gd          # Enemy AI (patrol/alert/investigate)
-│   ├── enemy_visuals.gd            # Enemy animation logic
-│   ├── hud.gd                      # HUD display logic
-│   ├── follow_camera.gd            # Camera following player
-│   └── hide_spot.gd                # Hide spot interaction
+├── src/             # Canonical home for gameplay code and feature scenes
+│   ├── player/      # Player scene and scripts
+│   │   ├── player.tscn                 # Player CharacterBody3D scene
+│   │   ├── player_controller.gd        # Player movement and state
+│   │   └── player_visuals.gd           # Player animation logic
+│   ├── shared/      # Shared utilities/components
+│   │   ├── base_character_visuals.gd   # Base class for character animations
+│   │   ├── debug_utils.gd              # Debug helpers
+│   │   ├── follow_camera.gd            # Camera following player
+│   │   ├── game_constants.gd           # Centralized constants
+│   │   └── position_utils.gd           # Position utility functions
+│   └── ui/          # UI scenes and scripts (e.g., HUD)
+│       ├── hud.tscn                    # HUD scene
+│       └── hud.gd                      # HUD display logic
+├── scripts/         # Legacy scripts pending migration
+│   ├── enemy_patroller.gd              # Enemy AI (patrol/alert/investigate)
+│   ├── enemy_visuals.gd                # Enemy animation logic
+│   └── hide_spot.gd                    # Hide spot interaction
 ├── scenes/          # Godot scene files (.tscn)
 ├── tests/           # GUT test framework tests
 │   ├── unit/        # Unit tests
 │   ├── smoke/       # Smoke tests
 │   └── support/     # Test utilities
-├── ui/              # UI scenes and scripts
 ├── assets/          # Models, textures, sounds
 └── addons/          # Third-party addons (GUT)
 ```

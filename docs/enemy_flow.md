@@ -28,7 +28,7 @@ Docs for the current enemy patroller setup (Godot 4.x). No behavior changes; thi
   - Role: Choose animations based on movement/state and handle sprite flipping.
   - Depends on parent (`Enemy`) exposing `get_state` and state constants.
   - Uses `BaseCharacterVisuals` helpers for animation playback/flip.
-- `scripts/base_character_visuals.gd` (base class)
+- `src/shared/base_character_visuals.gd` (base class)
   - Role: Common animation runner for characters; provides `tick` to pick animation and flip horizontally.
 
 ## Per-frame entrypoints
