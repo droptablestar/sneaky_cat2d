@@ -4,7 +4,7 @@
 [ext_resource type="Script" uid="uid://bv1kwqm0mnatt" path="res://src/shared/follow_camera.gd" id="2_vufyt"]
 [ext_resource type="Script" uid="uid://dnyy3bl45klos" path="res://src/gameplay/hide_spot.gd" id="3_kd6g3"]
 [ext_resource type="PackedScene" uid="uid://dya13xodgtd4j" path="res://src/enemy/enemy_patroller.tscn" id="4_0e3ue"]
-[ext_resource type="PackedScene" path="res://src/ui/hud.tscn" id="5_bwa5p"]
+[ext_resource type="PackedScene" uid="uid://dnpahehrirrfg" path="res://src/ui/hud.tscn" id="5_bwa5p"]
 
 [sub_resource type="ProceduralSkyMaterial" id="SkyMaterial_bg"]
 sky_top_color = Color(0.37, 0.51, 0.68, 1)
@@ -111,3 +111,4 @@ waypoint_b_path = NodePath("../Waypoints/WaypointB")
 player_path = NodePath("../../Player")
 
 [node name="HUD" parent="." instance=ExtResource("5_bwa5p")]
+beat_flash = 0.5

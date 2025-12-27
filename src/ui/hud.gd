@@ -8,9 +8,8 @@ extends CanvasLayer
 @export var fx_min_alpha: float = 0.0
 @export var fx_max_alpha: float = 0.45
 @export var bpm_min: float = 60.0
-@export var bpm_max: float = 180.0
-@export var beat_flash: float = 0.12  # extra alpha on beat
-@export var beat_decay: float = 10.0  # higher = snappier falloff
+@export var bpm_max: float = 140.0
+@export var beat_flash: float = 0.12  # maximum extra alpha at peak (scales with detection)
 
 ## Reference to player node
 var _player: Node = null
@@ -19,7 +18,6 @@ var _player: Node = null
 var _enemy: Node = null
 
 var _beat_timer: float = 0.0
-var _beat_kick: float = 0.0
 
 @onready var detection_bar: Range = %DetectionBar
 @onready var hidden_status_label: Label = %HiddenStatusLabel
@@ -32,42 +30,55 @@ func _ready() -> void:
 	_vignette.visible = false
 
 	_connect_to_game_entities()
+	var fx := $Root/DirectionFX
+	fx.set_anchors_preset(Control.PRESET_FULL_RECT)
+
 	assert(_vignette, "HUD requires node at $Root/DirectionFX/Vignette (ColorRect).")
+
+	$Root/DirectionFX.set_anchors_preset(Control.PRESET_FULL_RECT)
+	_vignette.set_anchors_preset(Control.PRESET_FULL_RECT)
 
 
 func _process(delta: float) -> void:
 	if _vignette == null:
 		return
 
-	# t must be in [0,1]
 	var det: float = detection_bar.value
 	var t: float = clamp(det / 100.0, 0.0, 1.0)
 
-	# If no detection, effect must be fully off (no baseline pulse).
+	# If no detection, effect must be fully off.
 	if t <= 0.0:
 		_vignette.visible = false
 		_vignette.self_modulate.a = 0.0
+		_beat_timer = 0.0
 		return
 
 	_vignette.visible = true
 
-	# Base intensity grows nonlinearly near the top
+	# Progressive darkening as detection rises.
 	var base_alpha: float = lerpf(fx_min_alpha, fx_max_alpha, t * t)
 
-	# Beat frequency ramps with detection
+	# Heartbeat frequency rises with detection.
 	var bpm: float = lerpf(bpm_min, bpm_max, t)
 	var beat_period: float = 60.0 / max(bpm, 1.0)
 
-	_beat_timer += delta
-	if _beat_timer >= beat_period:
-		_beat_timer -= beat_period
-		_beat_kick = 1.0
+	# Beat phase in [0,1).
+	_beat_timer = fmod(_beat_timer + delta, beat_period)
+	var phase: float = _beat_timer / beat_period
 
-	# Decay the beat kick
-	_beat_kick = max(_beat_kick - delta * beat_decay, 0.0)
+	# Smooth heartbeat pulse: 0 at start/end, 1 at mid-beat.
+	var pulse: float = 0.5 - 0.5 * cos(phase * TAU)
 
-	# Apply: alpha + small beat flash
-	var a: float = clampf(base_alpha + _beat_kick * beat_flash, 0.0, 1.0)
+	# Shape alpha so it *relaxes* between beats and gets stronger with detection:
+	# - Floor is below base_alpha, so the pulse is visually obvious.
+	# - Peak grows above base_alpha, with amplitude scaling by detection.
+	var floor_alpha: float = clampf(base_alpha * 0.4, 0.0, 1.0)
+	var peak_alpha: float = clampf(base_alpha + (beat_flash * t), 0.0, 1.0)
+	var a: float = lerpf(floor_alpha, peak_alpha, pulse)
+	if Engine.get_frames_drawn() % 60 == 0:
+		print("t=", t, " floor=", floor_alpha, " peak=", peak_alpha, " pulse=", pulse, " a=", a)
+		print("beat_flash=", beat_flash, " fx_max_alpha=", fx_max_alpha)
+
 	var m: Color = _vignette.self_modulate
 	m.a = a
 	_vignette.self_modulate = m
