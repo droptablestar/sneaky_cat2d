@@ -1,29 +1,28 @@
-[gd_scene load_steps=2 format=3]
+[gd_scene load_steps=2 format=3 uid="uid://dnpahehrirrfg"]
 
-[ext_resource type="Script" path="res://src/ui/hud.gd" id="1_19uhp"]
+[ext_resource type="Script" uid="uid://dm011mfayvsn" path="res://src/ui/hud.gd" id="1_19uhp"]
 
 [node name="HUD" type="CanvasLayer"]
 script = ExtResource("1_19uhp")
 
 [node name="Root" type="Control" parent="."]
+visible = false
 layout_mode = 3
 anchors_preset = 0
 offset_left = 16.0
 offset_top = 16.0
 offset_right = 16.0
 offset_bottom = 16.0
-size_flags_horizontal = 1
-size_flags_vertical = 1
 
 [node name="Panel" type="Panel" parent="Root"]
+visible = false
 self_modulate = Color(1, 1, 1, 0.95)
 layout_mode = 0
-offset_left = 0.0
-offset_top = 0.0
 offset_right = 360.0
 offset_bottom = 120.0
 
 [node name="VBox" type="VBoxContainer" parent="Root/Panel"]
+visible = false
 layout_mode = 0
 offset_left = 8.0
 offset_top = 8.0
@@ -33,27 +32,52 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="HiddenTitle" type="Label" parent="Root/Panel/VBox"]
+visible = false
 modulate = Color(0.85, 0.85, 0.85, 1)
+layout_mode = 2
 text = "STATUS"
 
 [node name="HiddenStatusLabel" type="Label" parent="Root/Panel/VBox"]
 unique_name_in_owner = true
+visible = false
 custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 0.8)
 theme_override_constants/line_spacing = 6
 theme_override_constants/outline_size = 8
-theme_override_colors/font_outline_color = Color(0, 0, 0, 0.8)
 theme_override_font_sizes/font_size = 36
 text = "VISIBLE"
 
 [node name="DetectionTitle" type="Label" parent="Root/Panel/VBox"]
+visible = false
 modulate = Color(0.85, 0.85, 0.85, 1)
+layout_mode = 2
 text = "DETECTION"
 
 [node name="DetectionBar" type="ProgressBar" parent="Root/Panel/VBox"]
 unique_name_in_owner = true
+visible = false
 custom_minimum_size = Vector2(320, 28)
-value = 0.0
-min_value = 0.0
-max_value = 100.0
+layout_mode = 2
 step = 0.0
 show_percentage = false
+
+[node name="DirectionFX" type="Control" parent="Root"]
+visible = false
+anchors_preset = 15
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 0.0
+offset_bottom = 0.0
+
+[node name="Vignette" type="ColorRect" parent="Root/DirectionFX"]
+visible = false
+self_modulate = Color(1, 1, 1, 0)
+layout_mode = 0
+mouse_filter = 2
+color = Color(0, 0, 0, 0)
+anchors_preset = 15
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 0.0
+offset_bottom = 0.0
