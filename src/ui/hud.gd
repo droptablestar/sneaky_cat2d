@@ -18,7 +18,6 @@ var _player: Node = null
 ## Reference to enemy node
 var _enemy: Node = null
 
-var _det_norm: float = 0.0
 var _beat_timer: float = 0.0
 var _beat_kick: float = 0.0
 
@@ -64,7 +63,7 @@ func _process(delta: float) -> void:
 	if _vignette == null:
 		return
 
-	# _det_norm must be in [0,1]
+	# t must be in [0,1]
 	var det: float = detection_bar.value
 	var t: float = clamp(det / 100.0, 0.0, 1.0)
 
@@ -72,10 +71,9 @@ func _process(delta: float) -> void:
 	if t <= 0.0:
 		_vignette.visible = false
 		_vignette.self_modulate.a = 0.0
-	else:
-		_vignette.visible = true
-		var pulse := 0.5 + 0.5 * sin(Time.get_ticks_msec() / 1000.0 * TAU * 2.0)  # 2Hz
-		_vignette.self_modulate.a = t * pulse
+		return
+
+	_vignette.visible = true
 
 	# Base intensity grows nonlinearly near the top
 	var base_alpha: float = lerpf(fx_min_alpha, fx_max_alpha, t * t)
@@ -129,4 +127,3 @@ func _on_player_hidden_state_changed(is_hidden: bool) -> void:
 ## Updates detection bar when enemy detection meter changes
 func _on_detection_meter_changed(value: float) -> void:
 	detection_bar.value = value
-	_det_norm = float(value) / float(GameConstants.DETECTION_METER_MAX)
