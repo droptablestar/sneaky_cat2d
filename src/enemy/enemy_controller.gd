@@ -74,6 +74,20 @@ func _tick(delta: float) -> void:
 
 
 func _build_ai_context(_delta: float) -> Dictionary:
+	var player_position: Variant = null
+	var player_hidden: bool = true
+	var waypoint_a: Variant = null
+	var waypoint_b: Variant = null
+
+	if _player:
+		player_position = _player.global_position
+		player_hidden = _player.is_hidden
+
+	if _waypoint_a:
+		waypoint_a = _waypoint_a.global_position
+	if _waypoint_b:
+		waypoint_b = _waypoint_b.global_position
+
 	return {
 		"position": global_position,
 		"initial_y": _initial_y,
@@ -86,10 +100,10 @@ func _build_ai_context(_delta: float) -> Dictionary:
 		"alert_grace_time": alert_grace_time,
 		"investigate_pause_time": investigate_pause_time,
 		"detection_meter": detection_meter,
-		"player_position": _player.global_position if _player else null,
-		"player_hidden": _player.is_hidden if _player else true,
-		"waypoint_a": _waypoint_a.global_position if _waypoint_a else null,
-		"waypoint_b": _waypoint_b.global_position if _waypoint_b else null,
+		"player_position": player_position,
+		"player_hidden": player_hidden,
+		"waypoint_a": waypoint_a,
+		"waypoint_b": waypoint_b
 	}
 
 
