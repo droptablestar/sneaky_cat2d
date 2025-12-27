@@ -25,3 +25,4 @@ mono_crash.*.json
 *.tmp
 *.log
 *.idea
+*.png*

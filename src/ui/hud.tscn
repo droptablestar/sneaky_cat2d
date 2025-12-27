@@ -16,6 +16,7 @@ size_flags_horizontal = 1
 size_flags_vertical = 1
 
 [node name="Panel" type="Panel" parent="Root"]
+self_modulate = Color(1, 1, 1, 0.95)
 layout_mode = 0
 offset_left = 0.0
 offset_top = 0.0
@@ -37,9 +38,11 @@ text = "STATUS"
 
 [node name="HiddenStatusLabel" type="Label" parent="Root/Panel/VBox"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 32)
+custom_minimum_size = Vector2(0, 40)
 theme_override_constants/line_spacing = 6
-theme_override_font_sizes/font_size = 26
+theme_override_constants/outline_size = 8
+theme_override_colors/font_outline_color = Color(0, 0, 0, 0.8)
+theme_override_font_sizes/font_size = 36
 text = "VISIBLE"
 
 [node name="DetectionTitle" type="Label" parent="Root/Panel/VBox"]

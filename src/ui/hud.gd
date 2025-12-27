@@ -33,9 +33,7 @@ func _connect_to_game_entities() -> void:
 	if _player and _player.has_signal("hidden_state_changed"):
 		_player.hidden_state_changed.connect(_on_player_hidden_state_changed)
 		# Initialize display with current state
-		_on_player_hidden_state_changed(
-			_player.is_hidden if _player.has_variable("is_hidden") else false
-		)
+		_on_player_hidden_state_changed(_player.is_hidden)
 
 	# Connect to enemy detection meter signal
 	if _enemy and _enemy.has_signal("detection_meter_changed"):

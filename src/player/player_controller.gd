@@ -35,6 +35,10 @@ var _gravity: float = ProjectSettings.get_setting("physics/3d/default_gravity")
 
 
 func _ready() -> void:
+	# Add to player group for HUD to find
+	if not is_in_group("player"):
+		add_to_group("player")
+
 	# Set up Z-plane constraint
 	if constrain_z:
 		plane_z = global_position.z
