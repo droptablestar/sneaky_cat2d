@@ -24,34 +24,10 @@ var _beat_kick: float = 0.0
 @onready var detection_bar: Range = %DetectionBar
 @onready var hidden_status_label: Label = %HiddenStatusLabel
 @onready var _vignette: ColorRect = $Root/DirectionFX/Vignette
-@onready var _direction_fx: Control = $Root/DirectionFX
 
 
 func _ready() -> void:
-	# Turn the HUD UI on (tscn has everything hidden)
-	$Root.visible = true
-	$Root/Panel.visible = true
-	$Root/Panel/VBox.visible = true
-	%HiddenStatusLabel.visible = true
-	%DetectionBar.visible = true
-	$Root/Panel/VBox/HiddenTitle.visible = true
-	$Root/Panel/VBox/DetectionTitle.visible = true
-
-	_direction_fx.set_anchors_preset(Control.PRESET_FULL_RECT)
-	_vignette.set_anchors_preset(Control.PRESET_FULL_RECT)
-
-	var root: Control = $Root
-	root.set_anchors_preset(Control.PRESET_FULL_RECT)
-	root.offset_left = 0.0
-	root.offset_top = 0.0
-	root.offset_right = 0.0
-	root.offset_bottom = 0.0
-
-	# Ensure game starts with no overlay (no first-frame flash).
-	$Root/DirectionFX.visible = true
-	_vignette.visible = false
-
-	_vignette.color.a = 1.0
+	# Scene owns layout + default visibility. Script only initializes dynamic FX.
 	_vignette.self_modulate.a = 0.0
 	_vignette.visible = false
 
