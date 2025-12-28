@@ -7,7 +7,7 @@ size = Vector2(1200, 40)
 
 [sub_resource type="Gradient" id="Gradient_1"]
 offsets = PackedFloat32Array(0, 1)
-colors = PackedColorArray(0.08, 0.10, 0.16, 1, 0.28, 0.30, 0.36, 1)
+colors = PackedColorArray(0.18, 0.17, 0.16, 1, 0.28, 0.26, 0.24, 1)
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_1"]
 gradient = SubResource("Gradient_1")
@@ -29,24 +29,41 @@ height = 220
 
 [node name="Main" type="Node2D"]
 
-[node name="BackgroundSky" type="Sprite2D" parent="."]
+[node name="BackgroundWall" type="Sprite2D" parent="."]
 z_index = -10
 texture = SubResource("GradientTexture2D_1")
-position = Vector2(0, 0)
+position = Vector2(0, 360)
 centered = true
 
-[node name="GroundVisual" type="Sprite2D" parent="."]
+[node name="FloorFill" type="Polygon2D" parent="."]
+z_index = -6
+color = Color(0.22, 0.18, 0.14, 1)
+polygon = PackedVector2Array(-640, 400, 640, 400, 640, 720, -640, 720)
+
+[node name="Baseboard" type="Polygon2D" parent="."]
+z_index = -5
+color = Color(0.12, 0.10, 0.09, 1)
+polygon = PackedVector2Array(-640, 392, 640, 392, 640, 400, -640, 400)
+
+[node name="FloorGrain" type="Sprite2D" parent="."]
 z_index = -5
 texture = SubResource("NoiseTexture2D_1")
-position = Vector2(0, 470)
+position = Vector2(0, 560)
 centered = true
-modulate = Color(0.20, 0.16, 0.12, 1)
+modulate = Color(0.10, 0.08, 0.06, 0.18)
+
+[node name="DebugFloorLine" type="Line2D" parent="."]
+z_index = 100
+width = 2.0
+default_color = Color(1, 0, 0, 1)
+points = PackedVector2Array(-640, 400, 640, 400)
 
 [node name="Floor" type="StaticBody2D" parent="."]
 position = Vector2(0, 400)
 
 [node name="Camera2D" type="Camera2D" parent="."]
 current = true
+position = Vector2(0, 360)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Floor"]
 shape = SubResource("RectangleShape2D_1")
