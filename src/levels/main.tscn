@@ -5,12 +5,42 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1"]
 size = Vector2(1200, 40)
 
+[sub_resource type="Gradient" id="Gradient_1"]
+offsets = PackedFloat32Array(0, 1)
+colors = PackedColorArray(0.08, 0.10, 0.16, 1, 0.28, 0.30, 0.36, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_1"]
+gradient = SubResource("Gradient_1")
+width = 1280
+height = 720
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_1"]
+noise_type = 1
+frequency = 0.02
+fractal_type = 1
+fractal_octaves = 3
+fractal_lacunarity = 2.0
+fractal_gain = 0.5
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_1"]
+noise = SubResource("FastNoiseLite_1")
+width = 1280
+height = 220
+
 [node name="Main" type="Node2D"]
 
-[node name="Background" type="ColorRect" parent="."]
-color = Color(0.15, 0.15, 0.18, 1)
-size = Vector2(1280, 720)
-position = Vector2(-640, -360)
+[node name="BackgroundSky" type="Sprite2D" parent="."]
+z_index = -10
+texture = SubResource("GradientTexture2D_1")
+position = Vector2(0, 0)
+centered = true
+
+[node name="GroundVisual" type="Sprite2D" parent="."]
+z_index = -5
+texture = SubResource("NoiseTexture2D_1")
+position = Vector2(0, 470)
+centered = true
+modulate = Color(0.20, 0.16, 0.12, 1)
 
 [node name="Floor" type="StaticBody2D" parent="."]
 position = Vector2(0, 400)
