@@ -11,7 +11,6 @@ func _physics_process(delta: float) -> void:
 
 	# Deterministic keyboard movement (no InputMap dependency).
 	var axis := 0.0
-	print(Input.is_key_pressed(KEY_LEFT))
 	if Input.is_key_pressed(KEY_LEFT) or Input.is_key_pressed(KEY_A):
 		axis -= 1.0
 	if Input.is_key_pressed(KEY_RIGHT) or Input.is_key_pressed(KEY_D):

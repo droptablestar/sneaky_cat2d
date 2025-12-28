@@ -14,4 +14,4 @@ shape = SubResource("RectangleShape2D_1")
 [node name="Visual" type="ColorRect" parent="."]
 color = Color(1, 1, 1, 1)
 size = Vector2(32, 48)
-position = Vector2(-16, -48)
+position = Vector2(0, 0)
