@@ -65,9 +65,16 @@ func _physics_process(delta: float) -> void:
 
 
 func _tick(delta: float) -> void:
+	if _caught:
+		return
+
 	var ctx: Dictionary = _build_ai_context(delta)
 	var intent: Dictionary = _ai.tick(delta, ctx)
 	_apply_intent(intent)
+
+	# Reload can be triggered inside _apply_intent(); avoid ticking visuals during teardown.
+	if _caught:
+		return
 
 	if _visuals:
 		_visuals.tick(delta, _ai.get_state())
@@ -133,6 +140,7 @@ func _apply_intent(intent: Dictionary) -> void:
 		_caught = true
 		DebugUtils.dbg("Enemy caught you! Restarting level...")
 		get_tree().reload_current_scene()
+		return
 
 
 ## Returns current detection meter value (for HUD access)

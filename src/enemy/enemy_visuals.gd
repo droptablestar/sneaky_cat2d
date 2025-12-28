@@ -22,13 +22,13 @@ func _get_initial_animation() -> String:
 
 func _ready() -> void:
 	init_visuals()
-	if _parent_character:
+	if _parent_character and _parent_character.is_inside_tree():
 		_last_pos = _parent_character.global_position
 
 
 ## Determines animation based on whether enemy is moving
 func _determine_target_animation(state: Variant = null) -> String:
-	if not _parent_character:
+	if not _parent_character or not _parent_character.is_inside_tree():
 		return GameConstants.ANIM_WALK
 
 	var delta_pos: Vector3 = _parent_character.global_position - _last_pos
