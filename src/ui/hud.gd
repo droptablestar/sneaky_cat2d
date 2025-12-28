@@ -30,13 +30,7 @@ func _ready() -> void:
 	_vignette.visible = false
 
 	_connect_to_game_entities()
-	var fx := $Root/DirectionFX
-	fx.set_anchors_preset(Control.PRESET_FULL_RECT)
-
 	assert(_vignette, "HUD requires node at $Root/DirectionFX/Vignette (ColorRect).")
-
-	$Root/DirectionFX.set_anchors_preset(Control.PRESET_FULL_RECT)
-	_vignette.set_anchors_preset(Control.PRESET_FULL_RECT)
 
 
 func _process(delta: float) -> void:
@@ -75,11 +69,8 @@ func _process(delta: float) -> void:
 	var floor_alpha: float = clampf(base_alpha * 0.4, 0.0, 1.0)
 	var peak_alpha: float = clampf(base_alpha + (beat_flash * t), 0.0, 1.0)
 	var a: float = lerpf(floor_alpha, peak_alpha, pulse)
-	if Engine.get_frames_drawn() % 60 == 0:
-		print("t=", t, " floor=", floor_alpha, " peak=", peak_alpha, " pulse=", pulse, " a=", a)
-		print("beat_flash=", beat_flash, " fx_max_alpha=", fx_max_alpha)
-
 	var m: Color = _vignette.self_modulate
+
 	m.a = a
 	_vignette.self_modulate = m
 
