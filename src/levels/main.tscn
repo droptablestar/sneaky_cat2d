@@ -1,72 +1,52 @@
 [gd_scene format=3]
 
-[ext_resource type="PackedScene" uid="uid://player_scene" path="res://src/player/Player.tscn" id="1_player"]
+; External dependencies
+[ext_resource type="PackedScene" path="res://src/player/Player.tscn" id="1_player"]
+[ext_resource type="Script" path="res://src/levels/camera_follow.gd" id="2_camera_follow"]
 
+; Physics resource for the floor collision (continuous across both rooms)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1"]
-size = Vector2(1200, 40)
-
-[sub_resource type="Gradient" id="Gradient_1"]
-offsets = PackedFloat32Array(0, 1)
-colors = PackedColorArray(0.18, 0.17, 0.16, 1, 0.28, 0.26, 0.24, 1)
-
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_1"]
-gradient = SubResource("Gradient_1")
-width = 1280
-height = 720
-
-[sub_resource type="FastNoiseLite" id="FastNoiseLite_1"]
-noise_type = 1
-frequency = 0.02
-fractal_type = 1
-fractal_octaves = 3
-fractal_lacunarity = 2.0
-fractal_gain = 0.5
-
-[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_1"]
-noise = SubResource("FastNoiseLite_1")
-width = 1280
-height = 220
+size = Vector2(2600, 40)
 
 [node name="Main" type="Node2D"]
 
-[node name="BackgroundWall" type="Sprite2D" parent="."]
+; === ROOM A visuals (x: -640..640, y: 0..720) ===
+[node name="Wall_A" type="Polygon2D" parent="."]
 z_index = -10
-texture = SubResource("GradientTexture2D_1")
-position = Vector2(0, 360)
-centered = true
+color = Color(0.22, 0.22, 0.22, 1.0)
+polygon = PackedVector2Array(-640, 0, 640, 0, 640, 720, -640, 720)
 
-[node name="FloorFill" type="Polygon2D" parent="."]
+[node name="FloorVisual_A" type="Polygon2D" parent="."]
 z_index = -6
-color = Color(0.22, 0.18, 0.14, 1)
+color = Color(0.30, 0.25, 0.20, 1.0)
 polygon = PackedVector2Array(-640, 400, 640, 400, 640, 720, -640, 720)
 
-[node name="Baseboard" type="Polygon2D" parent="."]
-z_index = -5
-color = Color(0.12, 0.10, 0.09, 1)
-polygon = PackedVector2Array(-640, 392, 640, 392, 640, 400, -640, 400)
+; === ROOM B visuals (x: 640..1920, y: 0..720) ===
+[node name="Wall_B" type="Polygon2D" parent="."]
+z_index = -10
+color = Color(0.22, 0.22, 0.22, 1.0)
+polygon = PackedVector2Array(640, 0, 1920, 0, 1920, 720, 640, 720)
 
-[node name="FloorGrain" type="Sprite2D" parent="."]
-z_index = -5
-texture = SubResource("NoiseTexture2D_1")
-position = Vector2(0, 560)
-centered = true
-modulate = Color(0.10, 0.08, 0.06, 0.18)
+[node name="FloorVisual_B" type="Polygon2D" parent="."]
+z_index = -6
+color = Color(0.30, 0.25, 0.20, 1.0)
+polygon = PackedVector2Array(640, 400, 1920, 400, 1920, 720, 640, 720)
 
-[node name="DebugFloorLine" type="Line2D" parent="."]
-z_index = 100
-width = 2.0
-default_color = Color(1, 0, 0, 1)
-points = PackedVector2Array(-640, 400, 640, 400)
-
+; === Physics floor ===
 [node name="Floor" type="StaticBody2D" parent="."]
-position = Vector2(0, 400)
-
-[node name="Camera2D" type="Camera2D" parent="."]
-current = true
-position = Vector2(0, 360)
+position = Vector2(640, 400)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Floor"]
 shape = SubResource("RectangleShape2D_1")
 
+; Player
 [node name="Player" parent="." instance=ExtResource("1_player")]
 position = Vector2(200, 300)
+
+; Camera (follows player X)
+[node name="Camera2D" type="Camera2D" parent="."]
+current = true
+position = Vector2(0, 360)
+script = ExtResource("2_camera_follow")
+target_path = NodePath("../Player")
+fixed_y = 360.0

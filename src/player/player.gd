@@ -9,10 +9,17 @@ func _physics_process(delta: float) -> void:
 	if not is_on_floor():
 		velocity.y += gravity * delta
 
-	var axis := Input.get_axis("ui_left", "ui_right")
+	# Deterministic keyboard movement (no InputMap dependency).
+	var axis := 0.0
+	print(Input.is_key_pressed(KEY_LEFT))
+	if Input.is_key_pressed(KEY_LEFT) or Input.is_key_pressed(KEY_A):
+		axis -= 1.0
+	if Input.is_key_pressed(KEY_RIGHT) or Input.is_key_pressed(KEY_D):
+		axis += 1.0
 	velocity.x = axis * move_speed
 
-	if is_on_floor() and Input.is_action_just_pressed("ui_accept"):
+	# Deterministic jump (no InputMap dependency).
+	if is_on_floor() and (Input.is_key_pressed(KEY_SPACE) or Input.is_key_pressed(KEY_ENTER)):
 		velocity.y = jump_velocity
 
 	move_and_slide()
