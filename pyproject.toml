@@ -1,0 +1,11 @@
+[project]
+name = "sneakycat2d-tools"
+version = "0.0.0"
+requires-python = ">=3.10"
+
+[dependency-groups]
+dev = [
+  "gdtoolkit",
+  "pre-commit",
+  "setuptools<81",
+]
