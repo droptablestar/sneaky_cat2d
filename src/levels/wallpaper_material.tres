@@ -1,0 +1,11 @@
+[gd_resource type="ShaderMaterial" format=2]
+
+[ext_resource type="Shader" path="res://src/levels/wallpaper_shader.tres" id="1_shader"]
+
+[resource]
+shader = ExtResource("1_shader")
+shader_parameter/dot_spacing = 34.0
+shader_parameter/dot_radius = 0.085
+shader_parameter/dot_alpha = 0.07
+shader_parameter/dot_color = Color(0.0, 0.0, 0.0, 1.0)
+local_to_scene = true

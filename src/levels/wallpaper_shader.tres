@@ -1,0 +1,4 @@
+[gd_resource type="Shader" format=2]
+
+[resource]
+code = "shader_type canvas_item;\n\nuniform float dot_spacing = 28.0; // pixels-ish (relative to sprite UV scale)\nuniform float dot_radius  = 0.07; // in cell units (0..0.5)\nuniform float dot_alpha   = 0.08; // overall opacity\nuniform vec4  dot_color   : source_color = vec4(0.0, 0.0, 0.0, 1.0);\n\nvoid fragment() {\n\tvec2 uv = UV * dot_spacing;\n\tvec2 cell = fract(uv) - vec2(0.5);\n\tfloat d = length(cell);\n\tfloat mask = 1.0 - smoothstep(dot_radius, dot_radius + 0.02, d);\n\tCOLOR = vec4(dot_color.rgb, mask * dot_alpha);\n}\n"

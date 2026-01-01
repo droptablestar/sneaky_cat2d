@@ -1,0 +1,24 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://src/levels/room_visuals.gd" id="1_room_visuals"]
+[ext_resource type="Texture2D" path="res://src/levels/white_1x1.tres" id="2_texture"]
+[ext_resource type="ShaderMaterial" path="res://src/levels/wallpaper_material.tres" id="3_material"]
+
+[node name="RoomVisuals" type="Node2D"]
+script = ExtResource("1_room_visuals")
+
+[node name="Wall" type="Polygon2D" parent="."]
+z_index = -10
+polygon = PackedVector2Array(-640, 0, 640, 0, 640, 720, -640, 720)
+
+[node name="Wallpaper" type="Sprite2D" parent="."]
+z_index = -9
+texture = ExtResource("2_texture")
+material = ExtResource("3_material")
+centered = true
+position = Vector2(0, 360)
+scale = Vector2(1280, 720)
+
+[node name="FloorVisual" type="Polygon2D" parent="."]
+z_index = -6
+polygon = PackedVector2Array(-640, 400, 640, 400, 640, 720, -640, 720)
