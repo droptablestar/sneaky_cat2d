@@ -4,6 +4,7 @@
 [ext_resource type="PackedScene" path="res://src/player/Player.tscn" id="1_player"]
 [ext_resource type="PackedScene" path="res://src/levels/RoomVisuals.tscn" id="2_room_visuals"]
 [ext_resource type="Script" path="res://src/levels/camera_follow.gd" id="3_camera_follow"]
+[ext_resource type="PackedScene" path="res://src/furniture/HideTable.tscn" id="4_hide_table"]
 
 ; Physics resource for the floor collision (continuous across both rooms)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1"]
@@ -45,6 +46,10 @@ position = Vector2(640, 400)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Floor"]
 shape = SubResource("RectangleShape2D_1")
+
+; Furniture
+[node name="HideTable" parent="." instance=ExtResource("4_hide_table")]
+position = Vector2(400, 355)
 
 ; Player
 [node name="Player" parent="." instance=ExtResource("1_player")]
