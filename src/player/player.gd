@@ -1,25 +1,19 @@
 extends CharacterBody2D
 
-const NORMAL_SIZE: Vector2 = Vector2(32, 48)
-const NORMAL_OFFSET_TOP: float = -24.0
-const NORMAL_COLOR: Color = Color(1, 1, 1, 1)
-const HIDDEN_SIZE: Vector2 = Vector2(32, 32)
-const HIDDEN_OFFSET_TOP: float = -10.0
-const HIDDEN_COLOR: Color = Color(0.8, 0.8, 0.8, 1)
+const Tuning = preload("res://src/game/tuning.gd")
 const HIDE_TABLE_SCRIPT: Script = preload("res://src/furniture/hide_table.gd")
 
-@export var move_speed: float = 240.0
-@export var jump_velocity: float = -420.0
-@export var gravity: float = 1200.0
-@export var hidden_move_speed: float = 100.0
-
-@onready var anim: AnimatedSprite2D = $Anim
+@export var move_speed: float = Tuning.MOVE_SPEED_DEFAULT
+@export var jump_velocity: float = Tuning.JUMP_VELOCITY_DEFAULT
+@export var gravity: float = Tuning.GRAVITY_DEFAULT
+@export var hidden_move_speed: float = Tuning.MOVE_SPEED_HIDDEN
 
 var is_hiding: bool = false
 var overlapping_hide_zones: Array[Area2D] = []
 var f_key_was_pressed: bool = false
 var active_hideable: Node = null
 
+@onready var anim: AnimatedSprite2D = $Anim
 @onready var detection_area: Area2D = $DetectionArea
 
 
@@ -84,10 +78,10 @@ func _try_toggle_hide() -> void:
 
 
 func _enter_hide_mode() -> void:
-	anim.position.y += HIDDEN_OFFSET_TOP
+	anim.position.y += Tuning.PLAYER_HIDE_SPRITE_ADJUST
 	is_hiding = true
 
-	# pick the hideable node we’re hiding under
+	# pick the hideable node we're hiding under
 	active_hideable = overlapping_hide_zones[0].get_parent()
 	if active_hideable and active_hideable.has_method("set_occluding"):
 		active_hideable.call("set_occluding", true)
@@ -95,7 +89,7 @@ func _enter_hide_mode() -> void:
 
 func _exit_hide_mode() -> void:
 	is_hiding = false
-	anim.position.y -= HIDDEN_OFFSET_TOP
+	anim.position.y -= Tuning.PLAYER_HIDE_SPRITE_ADJUST
 
 	if active_hideable and active_hideable.has_method("set_occluding"):
 		active_hideable.call("set_occluding", false)
