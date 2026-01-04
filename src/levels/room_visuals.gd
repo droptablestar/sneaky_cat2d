@@ -6,7 +6,7 @@ extends Node2D
 @export var wallpaper_offset: Vector2 = Vector2(0, 360)
 @export var wallpaper_scale: Vector2 = Vector2(1280, 720)
 
-func _ready():
+func _ready() -> void:
     $Wall.color = wall_color
     $FloorVisual.color = floor_color
     $Wallpaper.modulate = wallpaper_modulate
