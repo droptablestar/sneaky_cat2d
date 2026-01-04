@@ -5,24 +5,40 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_hidezone"]
 size = Vector2(100, 60)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_tabletop"]
+size = Vector2(110, 4)
+
 [node name="HideTable" type="Node2D"]
+y_sort_enabled = true
+y_sort_origin = 50
 script = ExtResource("1_hide_table_script")
 
-[node name="TableVisual" type="ColorRect" parent="."]
+[node name="FrontOccluder" type="ColorRect" parent="."]
+z_index = 10
+offset_left = -60.0
+offset_top = -10.0
+offset_right = 60.0
+offset_bottom = 10.0
+color = Color(0.55, 0.35, 0.2, 1)
+visible = false
+
+[node name="Back" type="Node2D" parent="."]
+
+[node name="TableVisual" type="ColorRect" parent="Back"]
 offset_left = -60.0
 offset_top = -10.0
 offset_right = 60.0
 offset_bottom = 10.0
 color = Color(0.55, 0.35, 0.2, 1)
 
-[node name="LegVisual1" type="ColorRect" parent="."]
+[node name="LegVisual1" type="ColorRect" parent="Back"]
 offset_left = -50.0
 offset_top = 10.0
 offset_right = -40.0
 offset_bottom = 50.0
 color = Color(0.45, 0.3, 0.15, 1)
 
-[node name="LegVisual2" type="ColorRect" parent="."]
+[node name="LegVisual2" type="ColorRect" parent="Back"]
 offset_left = 40.0
 offset_top = 10.0
 offset_right = 50.0
@@ -30,7 +46,6 @@ offset_bottom = 50.0
 color = Color(0.45, 0.3, 0.15, 1)
 
 [node name="HideZone" type="Area2D" parent="."]
-position = Vector2(0, 15)
 monitoring = false
 monitorable = true
 collision_layer = 4
@@ -38,3 +53,11 @@ collision_mask = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HideZone"]
 shape = SubResource("RectangleShape2D_hidezone")
+
+[node name="Tabletop" type="StaticBody2D" parent="."]
+position = Vector2(0, -8)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Tabletop"]
+shape = SubResource("RectangleShape2D_tabletop")
+one_way_collision = true
+one_way_collision_margin = 1.0

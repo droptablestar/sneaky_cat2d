@@ -12,11 +12,13 @@ const HIDE_TABLE_SCRIPT: Script = preload("res://src/furniture/hide_table.gd")
 @export var jump_velocity: float = -420.0
 @export var gravity: float = 1200.0
 @export var hidden_move_speed: float = 100.0
+
 @onready var anim: AnimatedSprite2D = $Anim
 
 var is_hiding: bool = false
 var overlapping_hide_zones: Array[Area2D] = []
 var f_key_was_pressed: bool = false
+var active_hideable: Node = null
 
 @onready var detection_area: Area2D = $DetectionArea
 
@@ -85,10 +87,19 @@ func _enter_hide_mode() -> void:
 	anim.position.y += HIDDEN_OFFSET_TOP
 	is_hiding = true
 
+	# pick the hideable node we’re hiding under
+	active_hideable = overlapping_hide_zones[0].get_parent()
+	if active_hideable and active_hideable.has_method("set_occluding"):
+		active_hideable.call("set_occluding", true)
+
 
 func _exit_hide_mode() -> void:
 	is_hiding = false
 	anim.position.y -= HIDDEN_OFFSET_TOP
+
+	if active_hideable and active_hideable.has_method("set_occluding"):
+		active_hideable.call("set_occluding", false)
+	active_hideable = null
 
 func _update_visuals() -> void:
 	if not is_instance_valid(anim):

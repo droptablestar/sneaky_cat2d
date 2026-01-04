@@ -11,6 +11,8 @@
 size = Vector2(2600, 40)
 
 [node name="Main" type="Node2D"]
+y_sort_enabled = true
+
 
 ; === Room visuals via reusable scene ===
 [node name="RoomA" parent="." instance=ExtResource("2_room_visuals")]

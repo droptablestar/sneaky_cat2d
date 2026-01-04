@@ -184,6 +184,8 @@ size = Vector2(32, 48)
 size = Vector2(32, 48)
 
 [node name="Player" type="CharacterBody2D"]
+y_sort_enabled = true
+y_sort_origin = 24
 script = ExtResource("1_player_script")
 
 [node name="Anim" type="AnimatedSprite2D" parent="."]
