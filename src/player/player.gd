@@ -4,7 +4,7 @@ const NORMAL_SIZE: Vector2 = Vector2(32, 48)
 const NORMAL_OFFSET_TOP: float = -24.0
 const NORMAL_COLOR: Color = Color(1, 1, 1, 1)
 const HIDDEN_SIZE: Vector2 = Vector2(32, 32)
-const HIDDEN_OFFSET_TOP: float = -16.0
+const HIDDEN_OFFSET_TOP: float = -10.0
 const HIDDEN_COLOR: Color = Color(0.8, 0.8, 0.8, 1)
 const HIDE_TABLE_SCRIPT: Script = preload("res://src/furniture/hide_table.gd")
 
@@ -12,12 +12,12 @@ const HIDE_TABLE_SCRIPT: Script = preload("res://src/furniture/hide_table.gd")
 @export var jump_velocity: float = -420.0
 @export var gravity: float = 1200.0
 @export var hidden_move_speed: float = 100.0
+@onready var anim: AnimatedSprite2D = $Anim
 
 var is_hiding: bool = false
 var overlapping_hide_zones: Array[Area2D] = []
 var f_key_was_pressed: bool = false
 
-@onready var visual: ColorRect = $Visual
 @onready var detection_area: Area2D = $DetectionArea
 
 
@@ -55,6 +55,7 @@ func _physics_process(delta: float) -> void:
 		velocity.y = jump_velocity
 
 	move_and_slide()
+	_update_visuals()
 
 
 func _on_area_entered(area: Area2D) -> void:
@@ -81,16 +82,44 @@ func _try_toggle_hide() -> void:
 
 
 func _enter_hide_mode() -> void:
+	anim.position.y += HIDDEN_OFFSET_TOP
 	is_hiding = true
-	visual.size = HIDDEN_SIZE
-	visual.offset_top = HIDDEN_OFFSET_TOP
-	visual.offset_bottom = HIDDEN_OFFSET_TOP + HIDDEN_SIZE.y
-	visual.color = HIDDEN_COLOR
 
 
 func _exit_hide_mode() -> void:
 	is_hiding = false
-	visual.size = NORMAL_SIZE
-	visual.offset_top = NORMAL_OFFSET_TOP
-	visual.offset_bottom = NORMAL_OFFSET_TOP + NORMAL_SIZE.y
-	visual.color = NORMAL_COLOR
+	anim.position.y -= HIDDEN_OFFSET_TOP
+
+func _update_visuals() -> void:
+	if not is_instance_valid(anim):
+		return
+	if anim.sprite_frames == null:
+		return
+
+	var moving: bool = abs(velocity.x) > 0.01 or abs(velocity.y) > 0.01
+
+	# Flip based on horizontal motion only (visual-only)
+	if abs(velocity.x) > 0.01:
+		anim.flip_h = velocity.x < 0.0
+
+	# Play/stop only if the animation exists (won’t error before you set it up)
+	if is_hiding:
+		if anim.sprite_frames.has_animation("hide"):
+			if anim.animation != "hide":
+				anim.animation = "hide"
+			if not anim.is_playing():
+				anim.play()
+	elif moving:
+		if anim.sprite_frames.has_animation("walk"):
+			if anim.animation != "walk":
+				anim.animation = "walk"
+			if not anim.is_playing():
+				anim.play()
+	else:
+		if anim.sprite_frames.has_animation("idle"):
+			if anim.animation != "idle":
+				anim.animation = "idle"
+			if not anim.is_playing():
+				anim.play()
+		else:
+			anim.stop()
